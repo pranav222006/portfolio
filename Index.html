@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
-<style>
+@<style>
   :root{
     --bg:#0A0E12;
     --bg-panel:#11161C;
@@ -299,6 +299,7 @@
   .week-tab{
     font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:9px 16px; border-radius:999px;
     border:1px solid rgba(42,53,63,0.98); color:var(--text-dim); background:rgba(255,255,255,0.02); cursor:pointer;
+    text-decoration:none;
     transition:color .2s var(--transition), border-color .2s var(--transition), background .2s var(--transition), transform .2s var(--transition);
   }
   .week-tab:hover{ color:var(--text); border-color:var(--accent-line); transform:translateY(-1px); }
@@ -638,34 +639,35 @@
       </div>
       <p class="protosem-intro reveal">Weekly build log from the Protosem internship at Forge, Kumaraguru College of Technology — updated at the end of every week.</p>
       <div class="week-tabs reveal" id="week-tabs">
-        <button class="week-tab active" data-week="week-00">Week 00</button>
-        <button class="week-tab" data-week="week-01">Week 01</button>
-        <button class="week-tab" data-week="week-02">Week 02</button>
-        <button class="week-tab" data-week="week-03">Week 03</button>
-        <button class="week-tab" data-week="week-04">Week 04</button>
-        <button class="week-tab" data-week="week-05">Week 05</button>
-        <button class="week-tab" data-week="week-06">Week 06</button>
-        <button class="week-tab" data-week="week-07">Week 07</button>
-        <button class="week-tab" data-week="week-08">Week 08</button>
-        <button class="week-tab" data-week="week-09">Week 09</button>
-        <button class="week-tab" data-week="week-10">Week 10</button>
-        <button class="week-tab" data-week="week-11">Week 11</button>
-        <button class="week-tab" data-week="week-12">Week 12</button>
-        <button class="week-tab" data-week="week-13">Week 13</button>
-        <button class="week-tab" data-week="week-14">Week 14</button>
-        <button class="week-tab" data-week="week-15">Week 15</button>
-        <button class="week-tab" data-week="week-16">Week 16</button>
-        <button class="week-tab" data-week="week-17">Week 17</button>
-        <button class="week-tab" data-week="week-18">Week 18</button>
-        <button class="week-tab" data-week="week-19">Week 19</button>
-        <button class="week-tab" data-week="week-20">Week 20</button>
+        <a class="week-tab" href="week0.html">Week 00</a>
+        <a class="week-tab" href="week1.html">Week 01</a>
+        <a class="week-tab" href="week2.html">Week 02</a>
+        <a class="week-tab" href="week3.html">Week 03</a>
+        <a class="week-tab" href="week4.html">Week 04</a>
+        <a class="week-tab" href="week5.html">Week 05</a>
+        <a class="week-tab" href="week6.html">Week 06</a>
+        <a class="week-tab" href="week7.html">Week 07</a>
+        <a class="week-tab" href="week8.html">Week 08</a>
+        <a class="week-tab" href="week9.html">Week 09</a>
+        <a class="week-tab" href="week10.html">Week 10</a>
+        <a class="week-tab" href="week11.html">Week 11</a>
+        <a class="week-tab" href="week12.html">Week 12</a>
+        <a class="week-tab" href="week13.html">Week 13</a>
+        <a class="week-tab" href="week14.html">Week 14</a>
+        <a class="week-tab" href="week15.html">Week 15</a>
+        <a class="week-tab" href="week16.html">Week 16</a>
+        <a class="week-tab" href="week17.html">Week 17</a>
+        <a class="week-tab" href="week18.html">Week 18</a>
+        <a class="week-tab" href="week19.html">Week 19</a>
+        <a class="week-tab" href="week20.html">Week 20</a>
+        
       </div>
       <div class="week-panels reveal" id="week-panels">
         <div class="week-panel active" id="week-00">
           <h3>Week 00 — Orientation</h3>
           <div class="week-dates mono">Completed 16 personality assessment</div>
           <ul>
-            <li>Completed my 16 personality assessment, which helped me learn more about myself and my working style.</li>
+            <nav>week1.html</nav>
           </ul>
         </div>
         <div class="week-panel" id="week-01">
@@ -885,6 +887,7 @@
   const weekPanels = document.querySelectorAll('.week-panel');
   weekTabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
+      if (!tab.dataset.week) return;
       weekTabs.forEach(t=>t.classList.remove('active'));
       weekPanels.forEach(p=>p.classList.remove('active'));
       tab.classList.add('active');
