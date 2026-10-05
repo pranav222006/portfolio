@@ -3,944 +3,3109 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Pranav S — Mechatronics Engineer</title>
-<meta name="description" content="Pranav S — Mechatronics Engineering student specializing in PLC programming, electrical panel systems, and mechanical design." />
-<meta property="og:title" content="Pranav S — Mechatronics Engineer" />
-<meta property="og:description" content="PLC programming, electrical systems & mechanical design portfolio." />
+
+<meta name="description"
+content="Pranav S — Mechatronics Engineering student specializing in PLC programming, electrical panel systems, and mechanical design." />
+
+<meta property="og:title"
+content="Pranav S — Mechatronics Engineer" />
+
+<meta property="og:description"
+content="PLC programming, electrical systems & mechanical design." />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+rel="stylesheet">
+
 <script src="https://cdn.tailwindcss.com"></script>
-@<style>
-  :root{
-    --bg:#0A0E12;
-    --bg-panel:#11161C;
-    --bg-panel-hover:#151B22;
-    --line:#1E2730;
-    --line-strong:#2A353F;
-    --text:#E4E9ED;
-    --text-dim:#8B98A5;
-    --text-faint:#5C6773;
-    --accent:#38BDF8;
-    --accent-dim:rgba(56,189,248,0.12);
-    --accent-line:rgba(56,189,248,0.35);
-    --radius:14px;
-    --radius-sm:10px;
-    --radius-lg:24px;
-    --maxw:1180px;
-    --shadow:0 24px 70px rgba(0,0,0,0.28);
-    --transition:cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-  }
+<style>
 
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',system-ui,sans-serif;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-    position:relative;
-  }
+/* =====================================================
+   ORIGINAL PORTFOLIO CSS
+   ===================================================== */
 
-  body::before{
-    content:'';
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:0;
-    background:
-      radial-gradient(circle at top left, rgba(56,189,248,0.10), transparent 28%),
-      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.04), transparent 24%);
-  }
+:root{
+  --bg:#080b0e;
+  --bg-panel:#11161c;
+  --text:#edf2f5;
+  --text-dim:#aab4bc;
+  --text-faint:#65717a;
+  --line:rgba(255,255,255,.10);
+  --line-strong:rgba(255,255,255,.18);
 
-  h1,h2,h3,.disp{ font-family:'Space Grotesk',sans-serif; letter-spacing:-0.035em; }
-  .mono{ font-family:'JetBrains Mono',monospace; }
-  a{color:inherit;text-decoration:none;}
-  ::selection{background:var(--accent-dim); color:var(--accent);}
-  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  --accent:#53d6e8;
+  --accent-dim:rgba(83,214,232,.10);
+  --accent-line:rgba(83,214,232,.32);
 
-  .grid-bg{
-    position:fixed; inset:0; z-index:0; pointer-events:none;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:64px 64px;
-    opacity:0.16;
-    mask-image:radial-gradient(ellipse 80% 65% at 50% 0%, black 18%, transparent 80%);
-  }
+  --transition:cubic-bezier(.2,.7,.2,1);
+}
 
-  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; position:relative; z-index:1; }
+*{
+  box-sizing:border-box;
+}
 
-  .datum{
-    display:inline-flex; align-items:center; gap:10px;
-    color:var(--accent); font-size:12px; letter-spacing:0.16em; text-transform:uppercase;
-    margin-bottom:24px; font-weight:600;
-  }
-  .datum svg{ flex-shrink:0; }
-  .datum .idx{ color:var(--text-faint); }
+html{
+  scroll-behavior:smooth;
+}
 
-  header{
-    position:sticky; top:0; z-index:80;
-    backdrop-filter:blur(18px);
-    background:rgba(10,14,18,0.70);
-    border-bottom:1px solid rgba(30,39,48,0.8);
-    transition:background .35s var(--transition), border-color .35s var(--transition), box-shadow .35s var(--transition);
-  }
-  header.scrolled{
-    background:rgba(10,14,18,0.92);
-    box-shadow:0 8px 30px rgba(0,0,0,0.18);
-  }
-  .navbar{ display:flex; align-items:center; justify-content:space-between; height:74px; }
-  .logo{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:16px; }
-  .logo-mark{
-    width:32px; height:32px; border:1.5px solid var(--accent-line); border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent);
-    position:relative;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02);
-  }
-  .logo-mark::before, .logo-mark::after{
-    content:''; position:absolute; width:5px; height:5px; border:1px solid var(--accent-line);
-  }
-  .logo-mark::before{ top:-3px; left:-3px; border-right:none; border-bottom:none; }
-  .logo-mark::after{ bottom:-3px; right:-3px; border-left:none; border-top:none; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
 
-  nav ul{ display:flex; gap:2px; list-style:none; }
-  nav a.navlink{
-    font-size:13.5px; padding:10px 14px; color:var(--text-dim); border-radius:999px;
-    transition:color .2s var(--transition), background .25s var(--transition), transform .2s var(--transition);
-    position:relative;
-  }
-  nav a.navlink:hover{ color:var(--text); background:rgba(255,255,255,0.04); transform:translateY(-1px); }
-  nav a.navlink.active{ color:var(--accent); }
-  nav a.navlink.active::after{
-    content:''; position:absolute; left:14px; right:14px; bottom:6px; height:2px; background:var(--accent);
-  }
-  .nav-resume{
-    font-size:13px; padding:9px 16px; border:1px solid var(--accent-line); border-radius:999px;
-    color:var(--accent); display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
-    transition:background .25s var(--transition), transform .25s var(--transition), box-shadow .25s var(--transition);
-  }
-  .nav-resume:hover{ background:var(--accent-dim); transform:translateY(-1px) scale(1.01); box-shadow:0 10px 30px rgba(56,189,248,0.12); }
+  font-family:'DM Sans',sans-serif;
 
-  .hamburger{ display:none; background:none; border:1px solid var(--line-strong); border-radius:999px; width:40px; height:40px; align-items:center; justify-content:center; cursor:pointer; }
-  .hamburger span, .hamburger span::before, .hamburger span::after{
-    content:''; display:block; width:16px; height:1.5px; background:var(--text); position:relative; transition:transform .2s ease, opacity .2s ease;
-  }
-  .hamburger span::before{ position:absolute; top:-6px; }
-  .hamburger span::after{ position:absolute; top:6px; }
+  overflow-x:hidden;
+}
 
-  .mobile-sheet{
-    display:none; position:fixed; inset:74px 0 0 0; z-index:79;
-    background:rgba(10,14,18,0.98); backdrop-filter:blur(18px);
-    padding:24px 28px; overflow-y:auto;
-  }
-  .mobile-sheet.open{ display:block; }
-  .mobile-sheet a{ display:block; padding:16px 0; font-size:18px; border-bottom:1px solid var(--line); color:var(--text-dim); }
-  .mobile-sheet a.navlink.active{ color:var(--accent); }
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
-  .rail{
-    position:fixed; left:28px; top:50%; transform:translateY(-50%); z-index:40;
-    display:flex; flex-direction:column; gap:22px;
-  }
-  .rail a{ display:flex; align-items:center; gap:10px; }
-  .rail .dot{ width:6px; height:6px; border-radius:50%; background:var(--line-strong); transition:background .25s var(--transition), box-shadow .25s var(--transition), transform .25s var(--transition); }
-  .rail a.active .dot{ background:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
-  .rail a:hover .dot{ transform:scale(1.2); }
-  .rail .lbl{
-    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; color:var(--text-faint);
-    opacity:0; transform:translateX(-6px); transition:opacity .2s var(--transition), transform .2s var(--transition); white-space:nowrap;
-    text-transform:uppercase;
-  }
-  .rail a.active .lbl, .rail a:hover .lbl{ opacity:1; transform:translateX(0); color:var(--text-dim); }
-  @media (max-width:1160px){ .rail{ display:none; } }
+img{
+  max-width:100%;
+}
 
-  .reveal{ opacity:0; transform:translate3d(0,28px,0) scale(0.985); transition:opacity .8s var(--transition), transform .8s var(--transition); will-change:transform, opacity; }
-  .reveal.in{ opacity:1; transform:translate3d(0,0,0) scale(1); }
-  @media (prefers-reduced-motion: reduce){
-    .reveal{ opacity:1; transform:none; transition:none; }
-  }
+button{
+  font-family:inherit;
+}
 
-  .hero{ padding:108px 0 92px; position:relative; overflow:visible; }
-  .hero::after{
-    content:''; position:absolute; inset:auto -120px 0 auto; width:420px; height:420px;
-    background:radial-gradient(circle, rgba(56,189,248,0.16), transparent 70%);
-    filter:blur(24px); pointer-events:none;
+.wrap{
+  width:min(1180px, calc(100% - 48px));
+  margin:0 auto;
+}
+
+.grid-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-2;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    );
+
+  background-size:40px 40px;
+
+  mask-image:linear-gradient(
+    to bottom,
+    black,
+    transparent 85%
+  );
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+
+  z-index:100;
+
+  border-bottom:1px solid transparent;
+
+  transition:
+    background .3s var(--transition),
+    border-color .3s var(--transition),
+    backdrop-filter .3s var(--transition);
+}
+
+header.scrolled{
+  background:rgba(8,11,14,.82);
+  border-color:var(--line);
+  backdrop-filter:blur(14px);
+}
+
+.navbar{
+  min-height:72px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:30px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  font-weight:600;
+  letter-spacing:-.02em;
+}
+
+.logo-mark{
+  width:34px;
+  height:34px;
+
+  display:grid;
+  place-items:center;
+
+  border:1px solid var(--accent-line);
+  border-radius:9px;
+
+  color:var(--accent);
+
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+}
+
+nav{
+  flex:1;
+}
+
+nav ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  gap:24px;
+}
+
+.navlink{
+  position:relative;
+
+  color:var(--text-dim);
+
+  font-size:13px;
+
+  transition:
+    color .25s var(--transition);
+}
+
+.navlink:hover,
+.navlink.active{
+  color:var(--accent);
+}
+
+.navlink::after{
+  content:"";
+
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-8px;
+
+  height:1px;
+
+  background:var(--accent);
+
+  transform:scaleX(0);
+  transform-origin:left;
+
+  transition:transform .25s var(--transition);
+}
+
+.navlink:hover::after,
+.navlink.active::after{
+  transform:scaleX(1);
+}
+
+.nav-resume{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding:9px 14px;
+
+  border:1px solid var(--line);
+  border-radius:999px;
+
+  color:var(--text-dim);
+
+  font-size:12px;
+
+  transition:
+    border-color .25s var(--transition),
+    color .25s var(--transition);
+}
+
+.nav-resume:hover{
+  color:var(--accent);
+  border-color:var(--accent-line);
+}
+
+.hamburger{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  background:transparent;
+  color:var(--text);
+
+  cursor:pointer;
+}
+
+.hamburger span,
+.hamburger span::before,
+.hamburger span::after{
+  display:block;
+
+  width:18px;
+  height:1px;
+
+  background:currentColor;
+
+  position:relative;
+}
+
+.hamburger span::before,
+.hamburger span::after{
+  content:"";
+  position:absolute;
+  left:0;
+}
+
+.hamburger span::before{
+  top:-6px;
+}
+
+.hamburger span::after{
+  top:6px;
+}
+
+.mobile-sheet{
+  display:none;
+
+  position:absolute;
+  top:72px;
+  left:0;
+  right:0;
+
+  padding:20px 24px 26px;
+
+  background:rgba(8,11,14,.96);
+
+  border-bottom:1px solid var(--line);
+
+  backdrop-filter:blur(14px);
+}
+
+.mobile-sheet.open{
+  display:grid;
+  gap:18px;
+}
+
+.mobile-sheet a{
+  color:var(--text-dim);
+  font-size:14px;
+}
+
+.mobile-sheet a:hover{
+  color:var(--accent);
+}
+
+
+/* =====================================================
+   SIDE RAIL
+   ===================================================== */
+
+.rail{
+  position:fixed;
+
+  left:24px;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  z-index:50;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:15px;
+}
+
+.rail a{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  color:var(--text-faint);
+
+  font-size:10px;
+
+  font-family:'JetBrains Mono',monospace;
+
+  transition:
+    color .25s var(--transition);
+}
+
+.rail a:hover,
+.rail a.active{
+  color:var(--accent);
+}
+
+.rail .dot{
+  width:5px;
+  height:5px;
+
+  border-radius:50%;
+
+  background:currentColor;
+}
+
+.rail .lbl{
+  opacity:0;
+
+  transform:translateX(-5px);
+
+  transition:
+    opacity .25s var(--transition),
+    transform .25s var(--transition);
+}
+
+.rail a:hover .lbl,
+.rail a.active .lbl{
+  opacity:1;
+  transform:translateX(0);
+}
+
+
+/* =====================================================
+   GENERAL SECTIONS
+   ===================================================== */
+
+main{
+  position:relative;
+}
+
+section{
+  padding:110px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.datum{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  margin-bottom:34px;
+
+  color:var(--text-faint);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+}
+
+.datum svg{
+  color:var(--accent);
+}
+
+.datum .idx{
+  color:var(--accent);
+}
+
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.hero{
+  min-height:100vh;
+
+  display:flex;
+  align-items:center;
+
+  padding:120px 0 80px;
+}
+
+.hero-inner{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+
+  align-items:center;
+
+  gap:70px;
+}
+
+.titleblock{
+  padding:44px;
+
+  border:1px solid var(--line);
+
+  border-radius:28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(17,22,28,.94),
+      rgba(17,22,28,.56)
+    );
+}
+
+.hero-eyebrow{
+  display:flex;
+  gap:10px;
+
+  margin-bottom:22px;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+  letter-spacing:.08em;
+
+  color:var(--accent);
+}
+
+.titleblock h1{
+  margin:0;
+
+  font-size:clamp(54px,8vw,100px);
+
+  line-height:.95;
+
+  letter-spacing:-.065em;
+}
+
+.titleblock h1 .u{
+  color:var(--accent);
+}
+
+.tagline{
+  max-width:720px;
+
+  margin:28px 0 14px;
+
+  color:var(--text-dim);
+
+  font-size:19px;
+
+  line-height:1.55;
+}
+
+.sub{
+  color:var(--text-faint);
+
+  font-size:12px;
+}
+
+.mono{
+  font-family:'JetBrains Mono',monospace;
+}
+
+.hero-ctas{
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:12px;
+
+  margin-top:32px;
+}
+
+.btn{
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  padding:12px 17px;
+
+  border-radius:999px;
+
+  font-size:13px;
+
+  transition:
+    transform .25s var(--transition),
+    background .25s var(--transition),
+    border-color .25s var(--transition);
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#061014;
+}
+
+.btn-outline{
+  border:1px solid var(--line-strong);
+  color:var(--text);
+}
+
+.btn-outline:hover{
+  border-color:var(--accent-line);
+  color:var(--accent);
+}
+
+.hero-photo{
+  max-width:420px;
+
+  margin-left:auto;
+
+  padding:10px;
+
+  border:1px solid var(--line);
+
+  border-radius:30px;
+
+  background:var(--bg-panel);
+
+  transform:translate3d(0,0,0);
+}
+
+.hero-photo img{
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:4/5;
+
+  object-fit:cover;
+
+  border-radius:22px;
+}
+
+
+/* =====================================================
+   ABOUT
+   ===================================================== */
+
+.about-grid{
+  display:grid;
+
+  grid-template-columns:1.3fr .7fr;
+
+  gap:60px;
+}
+
+.about-copy{
+  max-width:760px;
+}
+
+.about-copy p{
+  margin:0 0 22px;
+
+  color:var(--text-dim);
+
+  font-size:16px;
+
+  line-height:1.9;
+}
+
+.edu-card{
+  position:sticky;
+  top:110px;
+
+  padding:26px;
+
+  border:1px solid var(--line);
+
+  border-radius:20px;
+
+  background:var(--bg-panel);
+}
+
+.edu-card h3{
+  margin:0 0 14px;
+
+  font-size:16px;
+}
+
+.edu-card p{
+  margin:8px 0;
+
+  color:var(--text-dim);
+
+  font-size:13px;
+  line-height:1.7;
+}
+
+
+/* =====================================================
+   EXPERIENCE
+   ===================================================== */
+
+.exp-list{
+  display:grid;
+  gap:0;
+}
+
+.exp-item{
+  display:grid;
+
+  grid-template-columns:180px 1fr;
+
+  gap:35px;
+
+  padding:28px 0;
+
+  border-top:1px solid var(--line);
+}
+
+.exp-item:last-child{
+  border-bottom:1px solid var(--line);
+}
+
+.exp-date{
+  color:var(--text-faint);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+}
+
+.exp-content h3{
+  margin:0 0 6px;
+
+  font-size:19px;
+}
+
+.exp-content .company{
+  color:var(--accent);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  margin-bottom:14px;
+}
+
+.exp-content p{
+  max-width:780px;
+
+  margin:0;
+
+  color:var(--text-dim);
+
+  font-size:14px;
+
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   SKILLS
+   ===================================================== */
+
+.skills-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:18px;
+}
+
+.skill-card{
+  padding:24px;
+
+  border:1px solid var(--line);
+
+  border-radius:18px;
+
+  background:rgba(17,22,28,.65);
+}
+
+.skill-card h3{
+  margin:0 0 14px;
+
+  font-size:15px;
+}
+
+.skill-card p{
+  margin:0;
+
+  color:var(--text-dim);
+
+  font-size:13px;
+
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   LEADERSHIP
+   ===================================================== */
+
+.leadership-grid{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:20px;
+}
+
+.lead-card{
+  padding:26px;
+
+  border:1px solid var(--line);
+
+  border-radius:20px;
+
+  background:rgba(17,22,28,.65);
+}
+
+.lead-card h3{
+  margin:0 0 10px;
+
+  font-size:17px;
+}
+
+.lead-card p{
+  margin:0;
+
+  color:var(--text-dim);
+
+  font-size:14px;
+
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   PROJECTS
+   ===================================================== */
+
+.proj-grid{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:20px;
+}
+
+.proj-card{
+  padding:28px;
+
+  border:1px solid var(--line);
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,22,28,.94),
+      rgba(17,22,28,.62)
+    );
+}
+
+.proj-card h3{
+  margin:0 0 10px;
+
+  font-size:20px;
+}
+
+.proj-card p{
+  margin:0;
+
+  color:var(--text-dim);
+
+  font-size:14px;
+
+  line-height:1.8;
+}
+
+.proj-tag{
+  display:inline-block;
+
+  margin-bottom:13px;
+
+  color:var(--accent);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  text-transform:uppercase;
+}
+
+
+/* =====================================================
+   PROTOSEM
+   ===================================================== */
+
+.week-tabs{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+
+  margin-bottom:25px;
+}
+
+.week-tab{
+  padding:9px 13px;
+
+  border:1px solid var(--line);
+
+  border-radius:999px;
+
+  background:transparent;
+
+  color:var(--text-dim);
+
+  cursor:pointer;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+}
+
+.week-tab:hover,
+.week-tab.active{
+  color:var(--accent);
+
+  border-color:var(--accent-line);
+
+  background:var(--accent-dim);
+}
+
+.week-panel{
+  display:none;
+
+  padding:28px;
+
+  border:1px solid var(--line);
+
+  border-radius:22px;
+
+  background:rgba(17,22,28,.65);
+}
+
+.week-panel.active{
+  display:block;
+}
+
+.week-panel h3{
+  margin:0 0 14px;
+
+  font-size:20px;
+}
+
+.week-panel p{
+  color:var(--text-dim);
+
+  font-size:14px;
+
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   CONTACT
+   ===================================================== */
+
+.contact-grid{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:20px;
+}
+
+.contact-card{
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+  padding:22px;
+
+  border:1px solid var(--line);
+
+  border-radius:18px;
+
+  transition:
+    border-color .25s var(--transition),
+    transform .25s var(--transition);
+}
+
+.contact-card:hover{
+  border-color:var(--accent-line);
+
+  transform:translateY(-3px);
+}
+
+.contact-card .lbl{
+  color:var(--text-faint);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  margin-bottom:4px;
+}
+
+.contact-card .val{
+  font-size:14.5px;
+
+  color:var(--text);
+
+  word-break:break-word;
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+footer{
+  padding:28px 0 40px;
+}
+
+.footer-row{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:12px;
+
+  font-size:13px;
+
+  color:var(--text-faint);
+}
+
+.footer-row .mono{
+  font-size:12px;
+}
+
+
+/* =====================================================
+   IOT LEARNING SECTION
+   ===================================================== */
+
+.iot-section{
+  position:relative;
+}
+
+.iot-intro{
+  max-width:720px;
+
+  color:var(--text-dim);
+
+  font-size:15px;
+
+  line-height:1.8;
+
+  margin-bottom:34px;
+}
+
+.iot-grid{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:24px;
+}
+
+.iot-card{
+  border:1px solid var(--line);
+
+  border-radius:24px;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,22,28,.96),
+      rgba(17,22,28,.72)
+    );
+
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.16);
+
+  transition:
+    transform .3s var(--transition),
+    border-color .3s var(--transition),
+    box-shadow .3s var(--transition);
+}
+
+.iot-card:hover{
+  transform:translateY(-5px);
+
+  border-color:var(--accent-line);
+
+  box-shadow:
+    0 24px 54px rgba(0,0,0,.22);
+}
+
+.iot-image-wrap{
+  width:100%;
+
+  height:240px;
+
+  overflow:hidden;
+
+  background:var(--bg-panel);
+
+  border-bottom:1px solid var(--line);
+}
+
+.iot-image{
+  width:100%;
+
+  height:100%;
+
+  display:block;
+
+  object-fit:cover;
+
+  transition:
+    transform .5s var(--transition);
+}
+
+.iot-card:hover .iot-image{
+  transform:scale(1.04);
+}
+
+.iot-content{
+  padding:26px;
+}
+
+.iot-tag{
+  display:inline-block;
+
+  margin-bottom:10px;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  letter-spacing:.08em;
+
+  color:var(--accent);
+
+  text-transform:uppercase;
+}
+
+.iot-content h3{
+  font-size:20px;
+
+  margin-bottom:10px;
+}
+
+.iot-content p{
+  color:var(--text-dim);
+
+  font-size:14px;
+
+  line-height:1.7;
+
+  margin-bottom:20px;
+}
+
+.iot-button{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  padding:10px 16px;
+
+  border:1px solid var(--accent-line);
+
+  border-radius:999px;
+
+  color:var(--accent);
+
+  font-size:13px;
+
+  transition:
+    background .25s var(--transition),
+    transform .25s var(--transition);
+}
+
+.iot-button:hover{
+  background:var(--accent-dim);
+
+  transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width:980px){
+
+  .hero-inner{
+    grid-template-columns:1fr;
+
+    gap:28px;
   }
-  .hero-inner{ display:grid; grid-template-columns:1.1fr 0.95fr; gap:44px; align-items:center; }
-  .titleblock{
-    border:1px solid rgba(42,53,63,0.86);
-    border-radius:32px;
-    padding:48px 44px;
-    background:linear-gradient(135deg, rgba(17,22,28,0.96) 0%, rgba(17,22,28,0.76) 100%);
-    box-shadow:var(--shadow);
-    position:relative;
-    overflow:hidden;
-  }
-  .titleblock::before,
-  .titleblock::after{
-    content:''; position:absolute; inset:auto;
-  }
-  .titleblock::before{ top:0; left:0; width:100%; height:100%; background:linear-gradient(120deg, transparent 0%, rgba(56,189,248,0.06) 50%, transparent 100%); transform:translateX(-100%); transition:transform .8s var(--transition); }
-  .titleblock:hover::before{ transform:translateX(100%); }
-  .titleblock::after{ top:-1px; left:-1px; width:80px; height:80px; border-top:1.5px solid var(--accent); border-left:1.5px solid var(--accent); border-top-left-radius:20px; }
-  .hero-eyebrow{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-dim); margin-bottom:22px; display:flex; gap:16px; flex-wrap:wrap; font-weight:600; }
-  .hero-eyebrow span{ color:var(--accent); }
-  .hero h1{ font-size:clamp(48px,7vw,84px); font-weight:700; line-height:0.95; margin-bottom:20px; letter-spacing:-0.04em; }
-  .hero h1 .u{ position:relative; }
-  .hero h1 .u::after{ content:''; position:absolute; left:0; right:0; bottom:2px; height:2px; background:var(--accent); opacity:.55; }
-  .hero p.tagline{ font-size:clamp(18px,2.25vw,24px); color:var(--text-dim); max-width:640px; margin-bottom:8px; line-height:1.45; }
-  .hero p.sub{ font-size:14px; color:var(--text-faint); margin-bottom:34px; }
-  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
-  .btn{
-    font-size:14px; font-weight:500; padding:13px 24px; border-radius:999px;
-    display:inline-flex; align-items:center; gap:8px; transition:transform .25s var(--transition), background .25s var(--transition), border-color .25s var(--transition), box-shadow .25s var(--transition);
-  }
-  .btn-primary{ background:var(--accent); color:#04121A; }
-  .btn-primary:hover{ transform:translateY(-2px) scale(1.01); background:#5cc9fa; box-shadow:0 14px 34px rgba(56,189,248,0.2); }
-  .btn-outline{ border:1px solid var(--line-strong); color:var(--text); }
-  .btn-outline:hover{ border-color:var(--accent-line); color:var(--accent); box-shadow:0 12px 30px rgba(56,189,248,0.12); }
 
   .hero-photo{
-    width:min(100%, 420px); margin-inline:auto; aspect-ratio:1;
-    border:1px solid rgba(56,189,248,0.24);
-    border-radius:50%;
-    padding:12px;
-    background:linear-gradient(135deg, rgba(17,22,28,0.96), rgba(17,22,28,0.6));
-    box-shadow:var(--shadow);
-    position:relative; overflow:hidden;
-    transform:translate3d(var(--shift-x,0px), var(--shift-y,0px),0);
-    transition:transform .7s var(--transition), box-shadow .7s var(--transition), border-color .7s var(--transition);
-  }
-  .hero-photo:hover{ border-color:var(--accent-line); box-shadow:0 24px 70px rgba(0,0,0,0.28); transform:translate3d(var(--shift-x,0px), var(--shift-y,0px),0) scale(1.01); }
-  .hero-photo::before{
-    content:''; position:absolute; inset:-18px; border:1px solid rgba(56,189,248,0.12); border-radius:50%;
-  }
-  .hero-photo img{
-    width:100%; height:100%; object-fit:cover; object-position:center 40%; display:block; border-radius:50%;
+    max-width:320px;
   }
 
-  section{ padding:100px 0; border-bottom:1px solid var(--line); position:relative; overflow:hidden; }
-  section::before{ content:''; position:absolute; left:50%; top:-1px; width:72%; height:1px; transform:translateX(-50%); background:linear-gradient(90deg, transparent, rgba(56,189,248,0.26), transparent); opacity:.65; }
-  section:last-of-type{ border-bottom:none; }
-  main section{ scroll-margin-top:100px; }
+  .about-grid{
+    grid-template-columns:1fr;
+  }
 
-  .about-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:42px; align-items:start; }
-  .about-copy p{ color:var(--text-dim); font-size:16px; line-height:1.8; margin-bottom:18px; }
   .edu-card{
-    border:1px solid var(--line); border-radius:24px; padding:26px; background:linear-gradient(180deg, rgba(17,22,28,0.96), rgba(17,22,28,0.74));
-    box-shadow:0 20px 50px rgba(0,0,0,0.18); align-self:start; position:sticky; top:112px;
-  }
-  .edu-card .eyebrow{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; font-family:'JetBrains Mono',monospace; }
-  .edu-card h3{ font-size:17px; margin-bottom:6px; }
-  .edu-card .school{ color:var(--text-dim); font-size:14px; margin-bottom:14px; }
-  .edu-card .meta-row{ display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-faint); border-top:1px solid var(--line); padding-top:12px; }
+    position:relative;
 
-  .exp-item{ display:grid; grid-template-columns:210px 1fr; gap:32px; padding:24px 0; border-top:1px solid rgba(30,39,48,0.85); transition:transform .25s var(--transition); }
-  .exp-item:hover{ transform:translateX(4px); }
-  .exp-item:last-child{ padding-bottom:0; }
-  .exp-date{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--accent); }
-  .exp-item h3{ font-size:19px; margin-bottom:4px; }
-  .exp-item .org{ color:var(--text-dim); font-size:14px; margin-bottom:16px; }
-  .exp-item ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
-  .exp-item li{ font-size:14.5px; color:var(--text-dim); padding-left:18px; position:relative; }
-  .exp-item li::before{ content:''; position:absolute; left:0; top:8px; width:6px; height:1.5px; background:var(--accent-line); }
-
-  .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
-  .skill-card{ border:1px solid var(--line); border-radius:24px; padding:24px; background:linear-gradient(180deg, rgba(17,22,28,0.92), rgba(17,22,28,0.72)); transition:transform .3s var(--transition), border-color .3s var(--transition), box-shadow .3s var(--transition); box-shadow:0 16px 38px rgba(0,0,0,0.16); }
-  .skill-card:hover{ transform:translateY(-5px); border-color:var(--accent-line); box-shadow:0 20px 44px rgba(0,0,0,0.22); }
-  .skill-card .idx{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-faint); margin-bottom:14px; }
-  .skill-card h3{ font-size:15.5px; margin-bottom:14px; font-weight:600; }
-  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
-  .soft-skills-section{ margin-top:32px; }
-  .soft-skills-section h3{ margin-bottom:18px; }
-  .badge{ font-size:12px; padding:6px 11px; border-radius:999px; border:1px solid var(--line-strong); color:var(--text-dim); background:rgba(255,255,255,0.02); transition:transform .2s var(--transition), color .2s var(--transition), border-color .2s var(--transition); }
-  .badge:hover{ color:var(--accent); border-color:var(--accent-line); transform:translateY(-1px); }
-
-  .lead-card{
-    display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start;
-    border:1px solid var(--line); border-radius:24px; padding:28px; background:linear-gradient(180deg, rgba(17,22,28,0.95), rgba(17,22,28,0.72));
-    box-shadow:0 18px 40px rgba(0,0,0,0.16); transition:transform .25s var(--transition), border-color .25s var(--transition), box-shadow .25s var(--transition);
-  }
-  .lead-card:hover{ transform:translateY(-3px); border-color:var(--accent-line); box-shadow:0 24px 50px rgba(0,0,0,0.2); }
-  .lead-badge{
-    width:52px; height:52px; border-radius:14px; border:1px solid var(--accent-line); background:var(--accent-dim);
-    display:flex; align-items:center; justify-content:center; color:var(--accent); flex-shrink:0;
-  }
-  .lead-card h3{ font-size:18px; margin-bottom:4px; }
-  .lead-card .org{ color:var(--text-dim); font-size:14px; margin-bottom:12px; }
-  .lead-card p{ color:var(--text-dim); font-size:14.5px; }
-  .fill-tag{ display:inline-block; margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-faint); border:1px dashed var(--line-strong); border-radius:999px; padding:5px 9px; }
-
-  .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-  .proj-card{
-    border:1px solid var(--line); border-radius:24px; padding:28px; background:linear-gradient(180deg, rgba(17,22,28,0.95), rgba(17,22,28,0.72));
-    box-shadow:0 18px 42px rgba(0,0,0,0.16); transition:transform .3s var(--transition), box-shadow .3s var(--transition), border-color .3s var(--transition);
-  }
-  .proj-card:hover{ transform:translateY(-5px); border-color:var(--accent-line); box-shadow:0 24px 54px rgba(0,0,0,0.22); }
-  .proj-tag{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; display:block; }
-  .proj-card h3{ font-size:19px; margin-bottom:10px; }
-  .proj-card p{ color:var(--text-dim); font-size:14.5px; margin-bottom:14px; }
-  .proj-empty{
-    border:1px dashed var(--line-strong); border-radius:24px; padding:26px;
-    display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:10px; min-height:100%;
-    color:var(--text-faint); background:rgba(255,255,255,0.02);
+    top:auto;
   }
 
-  .protosem-intro{ color:var(--text-dim); font-size:15px; max-width:620px; margin-bottom:32px; }
-  .week-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; border-bottom:1px solid rgba(30,39,48,0.85); padding-bottom:20px; }
-  .week-tab{
-    font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:9px 16px; border-radius:999px;
-    border:1px solid rgba(42,53,63,0.98); color:var(--text-dim); background:rgba(255,255,255,0.02); cursor:pointer;
-    text-decoration:none;
-    transition:color .2s var(--transition), border-color .2s var(--transition), background .2s var(--transition), transform .2s var(--transition);
-  }
-  .week-tab:hover{ color:var(--text); border-color:var(--accent-line); transform:translateY(-1px); }
-  .week-tab.active{ color:var(--accent); border-color:var(--accent); background:var(--accent-dim); }
-  .week-panel{ display:none; border:1px solid var(--line); border-radius:24px; padding:24px; background:rgba(255,255,255,0.02); box-shadow:0 14px 38px rgba(0,0,0,0.12); }
-  .week-panel.active{ display:block; }
-  .week-panel h3{ font-size:18px; margin-bottom:6px; }
-  .week-panel .week-dates{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); margin-bottom:18px; }
-  .week-panel ul{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:6px; }
-  .week-panel li{ font-size:14.5px; color:var(--text-dim); padding-left:18px; position:relative; }
-  .week-panel li::before{ content:''; position:absolute; left:0; top:8px; width:6px; height:1.5px; background:var(--accent-line); }
-
-  .contact-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
-  .contact-card{
-    border:1px solid var(--line); border-radius:24px; padding:22px 24px; background:linear-gradient(180deg, rgba(17,22,28,0.95), rgba(17,22,28,0.72));
-    display:flex; align-items:center; gap:16px; transition:transform .25s var(--transition), border-color .25s var(--transition), box-shadow .25s var(--transition);
-    box-shadow:0 16px 38px rgba(0,0,0,0.16);
-  }
-  .contact-card:hover{ transform:translateY(-4px); border-color:var(--accent-line); box-shadow:0 20px 44px rgba(0,0,0,0.22); }
-  .contact-icon{ width:42px; height:42px; border-radius:14px; background:var(--accent-dim); color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .contact-card .lbl{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); font-family:'JetBrains Mono',monospace; margin-bottom:3px; }
-  .contact-card .val{ font-size:14.5px; color:var(--text); word-break:break-word; }
-
-  footer{ padding:28px 0 40px; }
-  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; color:var(--text-faint); }
-  .footer-row .mono{ font-size:12px; }
-
-  @media (max-width:980px){
-    .hero-inner{ grid-template-columns:1fr; gap:28px; }
-    .hero-photo{ max-width:320px; }
-    .about-grid{ grid-template-columns:1fr; }
-    .edu-card{ position:relative; top:auto; }
-    .nav-resume{ display:none; }
+  .nav-resume{
+    display:none;
   }
 
-  @media (max-width:760px){
-    .wrap{ padding:0 20px; }
-    nav{ display:none; }
-    .hamburger{ display:inline-flex; }
-    .hero{ padding:88px 0 72px; }
-    .titleblock{ padding:32px 24px; border-radius:24px; }
-    .hero-photo{ max-width:260px; padding:8px; }
-    .exp-item{ grid-template-columns:1fr; gap:10px; }
-    .proj-grid{ grid-template-columns:1fr; }
-    .contact-grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width:900px){
+
+  .skills-grid{
+    grid-template-columns:repeat(2,1fr);
   }
+
+}
+
+@media (max-width:800px){
+
+  .rail{
+    display:none;
+  }
+
+  .iot-grid{
+    grid-template-columns:1fr;
+  }
+
+  .iot-image-wrap{
+    height:220px;
+  }
+
+}
+
+@media (max-width:760px){
+
+  .wrap{
+    padding:0 20px;
+  }
+
+  nav{
+    display:none;
+  }
+
+  .hamburger{
+    display:inline-flex;
+  }
+
+  .hero{
+    padding:88px 0 72px;
+  }
+
+  .titleblock{
+    padding:32px 24px;
+
+    border-radius:24px;
+  }
+
+  .hero-photo{
+    max-width:260px;
+
+    padding:8px;
+  }
+
+  .exp-item{
+    grid-template-columns:1fr;
+
+    gap:10px;
+  }
+
+  .proj-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+
+  .leadership-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .skills-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media (max-width:500px){
+
+  .iot-content{
+    padding:20px;
+  }
+
+  .iot-image-wrap{
+    height:200px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="grid-bg"></div>
 
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
 <header>
+
   <div class="wrap navbar">
+
     <a href="#home" class="logo">
-      <span class="logo-mark">PS</span>
-      <span>Pranav S</span>
+
+      <span class="logo-mark">
+        PS
+      </span>
+
+      <span>
+        Pranav S
+      </span>
+
     </a>
+
+
+    <!-- DESKTOP NAVIGATION -->
+
     <nav>
+
       <ul id="navlinks">
-        <li><a class="navlink" href="#home" data-sec="home">Home</a></li>
-        <li><a class="navlink" href="#about" data-sec="about">About</a></li>
-        <li><a class="navlink" href="#experience" data-sec="experience">Experience</a></li>
-        <li><a class="navlink" href="#skills" data-sec="skills">Skills</a></li>
-        <li><a class="navlink" href="#leadership" data-sec="leadership">Leadership</a></li>
-        <li><a class="navlink" href="#projects" data-sec="projects">Projects</a></li>
-        <li><a class="navlink" href="#protosem" data-sec="protosem">Protosem</a></li>
-        <li><a class="navlink" href="#contact" data-sec="contact">Contact</a></li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#home"
+            data-sec="home">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#about"
+            data-sec="about">
+            About
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#experience"
+            data-sec="experience">
+            Experience
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#skills"
+            data-sec="skills">
+            Skills
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#leadership"
+            data-sec="leadership">
+            Leadership
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#projects"
+            data-sec="projects">
+            Projects
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#protosem"
+            data-sec="protosem">
+            Protosem
+          </a>
+        </li>
+
+        <!-- IOT TAB -->
+
+        <li>
+          <a
+            class="navlink"
+            href="#iot"
+            data-sec="iot">
+            IoT
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="navlink"
+            href="#contact"
+            data-sec="contact">
+            Contact
+          </a>
+        </li>
+
       </ul>
+
     </nav>
-    <a href="PRANAV RESUME.pdf" target="_blank" class="nav-resume" id="nav-resume-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+
+
+    <!-- RESUME -->
+
+    <a
+      href="PRANAV RESUME.pdf"
+      target="_blank"
+      class="nav-resume"
+      id="nav-resume-btn">
+
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2">
+
+        <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/>
+
+      </svg>
+
       Resume
+
     </a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+
+
+    <!-- MOBILE BUTTON -->
+
+    <button
+      class="hamburger"
+      id="hamburger"
+      aria-label="Open menu"
+      aria-expanded="false">
+
+      <span></span>
+
+    </button>
+
   </div>
-  <div class="mobile-sheet" id="mobile-sheet">
-    <a class="navlink" href="#home" data-sec="home">Home</a>
-    <a class="navlink" href="#about" data-sec="about">About</a>
-    <a class="navlink" href="#experience" data-sec="experience">Experience</a>
-    <a class="navlink" href="#skills" data-sec="skills">Skills</a>
-    <a class="navlink" href="#leadership" data-sec="leadership">Leadership</a>
-    <a class="navlink" href="#projects" data-sec="projects">Projects</a>
-    <a class="navlink" href="#protosem" data-sec="protosem">Protosem</a>
-    <a class="navlink" href="#contact" data-sec="contact">Contact</a>
-    <a href="resume.pdf" target="_blank">Download Resume →</a>
+
+
+  <!-- MOBILE MENU -->
+
+  <div
+    class="mobile-sheet"
+    id="mobile-sheet">
+
+    <a
+      class="navlink"
+      href="#home"
+      data-sec="home">
+      Home
+    </a>
+
+    <a
+      class="navlink"
+      href="#about"
+      data-sec="about">
+      About
+    </a>
+
+    <a
+      class="navlink"
+      href="#experience"
+      data-sec="experience">
+      Experience
+    </a>
+
+    <a
+      class="navlink"
+      href="#skills"
+      data-sec="skills">
+      Skills
+    </a>
+
+    <a
+      class="navlink"
+      href="#leadership"
+      data-sec="leadership">
+      Leadership
+    </a>
+
+    <a
+      class="navlink"
+      href="#projects"
+      data-sec="projects">
+      Projects
+    </a>
+
+    <a
+      class="navlink"
+      href="#protosem"
+      data-sec="protosem">
+      Protosem
+    </a>
+
+    <!-- MOBILE IOT -->
+
+    <a
+      class="navlink"
+      href="#iot"
+      data-sec="iot">
+      IoT
+    </a>
+
+    <a
+      class="navlink"
+      href="#contact"
+      data-sec="contact">
+      Contact
+    </a>
+
+    <a
+      href="PRANAV RESUME.pdf"
+      target="_blank">
+      Download Resume →
+    </a>
+
   </div>
+
 </header>
 
-<!-- desktop index rail -->
+
+<!-- =====================================================
+     DESKTOP SIDE INDEX
+     ===================================================== -->
+
 <div class="rail" id="rail">
-  <a href="#home" data-sec="home"><span class="dot"></span><span class="lbl">Home</span></a>
-  <a href="#about" data-sec="about"><span class="dot"></span><span class="lbl">About</span></a>
-  <a href="#experience" data-sec="experience"><span class="dot"></span><span class="lbl">Experience</span></a>
-  <a href="#skills" data-sec="skills"><span class="dot"></span><span class="lbl">Skills</span></a>
-  <a href="#leadership" data-sec="leadership"><span class="dot"></span><span class="lbl">Leadership</span></a>
-  <a href="#projects" data-sec="projects"><span class="dot"></span><span class="lbl">Projects</span></a>
-  <a href="#protosem" data-sec="protosem"><span class="dot"></span><span class="lbl">Protosem</span></a>
-  <a href="#contact" data-sec="contact"><span class="dot"></span><span class="lbl">Contact</span></a>
+
+  <a
+    href="#home"
+    data-sec="home">
+
+    <span class="dot"></span>
+    <span class="lbl">Home</span>
+
+  </a>
+
+  <a
+    href="#about"
+    data-sec="about">
+
+    <span class="dot"></span>
+    <span class="lbl">About</span>
+
+  </a>
+
+  <a
+    href="#experience"
+    data-sec="experience">
+
+    <span class="dot"></span>
+    <span class="lbl">Experience</span>
+
+  </a>
+
+  <a
+    href="#skills"
+    data-sec="skills">
+
+    <span class="dot"></span>
+    <span class="lbl">Skills</span>
+
+  </a>
+
+  <a
+    href="#leadership"
+    data-sec="leadership">
+
+    <span class="dot"></span>
+    <span class="lbl">Leadership</span>
+
+  </a>
+
+  <a
+    href="#projects"
+    data-sec="projects">
+
+    <span class="dot"></span>
+    <span class="lbl">Projects</span>
+
+  </a>
+
+  <a
+    href="#protosem"
+    data-sec="protosem">
+
+    <span class="dot"></span>
+    <span class="lbl">Protosem</span>
+
+  </a>
+
+  <!-- IOT SIDE TAB -->
+
+  <a
+    href="#iot"
+    data-sec="iot">
+
+    <span class="dot"></span>
+    <span class="lbl">IoT</span>
+
+  </a>
+
+  <a
+    href="#contact"
+    data-sec="contact">
+
+    <span class="dot"></span>
+    <span class="lbl">Contact</span>
+
+  </a>
+
 </div>
 
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
 <main>
-  <!-- ================= HERO ================= -->
-  <section id="home" class="hero" style="border-bottom:none;">
-    <div class="wrap">
-      <div class="hero-inner">
-        <div class="titleblock reveal">
-          <div class="hero-eyebrow">
-            <span>SHEET 01/08</span>
-            <span style="color:var(--text-faint)">·</span>
-            <span style="color:var(--text-dim)">MECHATRONICS ENGINEERING</span>
-          </div>
-          <h1>Pranav <span class="u">S</span></h1>
-          <p class="tagline">Mechatronics Engineering  — PLC Programming, Electrical Systems &amp; Mechanical Design</p>
-          <p class="sub mono">Based in Vellore, Tamil Nadu</p>
-          <div class="hero-ctas">
-            <a href="#projects" class="btn btn-primary">
-              View Projects
-            </a>
-            <a href="PRANAV RESUME.pdf" target="_blank" class="btn btn-outline">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
-              Download Resume
-            </a>
-          </div>
-        </div>
-        <div class="hero-photo reveal">
-          <img src="WhatsApp Image 2026-07-31 at 10.01.29 AM.jpeg" alt="Pranav S photo">
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= ABOUT ================= -->
-  <section id="about">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">01</span> About
-      </div>
-      <div class="about-grid">
-        <div class="about-copy reveal">
-          <p>Mechatronics engineering student with hands-on experience in PLC programming, electrical panel building, and mechanical design across AutoCAD, Fusion 360, SolidWorks, and Autodesk Inventor.</p>
-          <p>Brings a wide range of experience across electrical systems in PLC panels — from wiring and hardware assembly to ladder logic development — paired with practical robotics exposure through Robocon 2025 and an independently built Automated Guided Vehicle (AGV).</p>
-          <p>Currently serves as Vice President of the Mechatronics Engineering department, alongside a structured, detail-oriented approach to engineering problems on the technical side.</p>
-        </div>
-        <div class="edu-card reveal">
-          <div class="eyebrow">Education</div>
-          <h3>B.E., Mechatronics Engineering</h3>
-          <div class="school">Kumaraguru College of Technology<br/>Coimbatore, Tamil Nadu</div>
-          <div class="meta-row">
-            <span>STATUS</span>
-            <span>Expected 2028</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= EXPERIENCE ================= -->
-  <section id="experience">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">02</span> Experience
+<!-- =====================================================
+     HOME
+     ===================================================== -->
+
+<section
+  id="home"
+  class="hero"
+  style="border-bottom:none;">
+
+  <div class="wrap">
+
+    <div class="hero-inner">
+
+      <div class="titleblock reveal">
+
+        <div class="hero-eyebrow">
+
+          <span>
+            SHEET 01/09
+          </span>
+
+          <span style="color:var(--text-faint)">
+            ·
+          </span>
+
+          <span style="color:var(--text-dim)">
+            MECHATRONICS ENGINEERING
+          </span>
+
+        </div>
+
+
+        <h1>
+          Pranav <span class="u">S</span>
+        </h1>
+
+
+        <p class="tagline">
+          Mechatronics Engineering — PLC Programming,
+          Electrical Systems &amp; Mechanical Design
+        </p>
+
+
+        <p class="sub mono">
+          Based in Vellore, Tamil Nadu
+        </p>
+
+
+        <div class="hero-ctas">
+
+          <a
+            href="#projects"
+            class="btn btn-primary">
+
+            View Projects
+
+          </a>
+
+
+          <a
+            href="PRANAV RESUME.pdf"
+            target="_blank"
+            class="btn btn-outline">
+
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2">
+
+              <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/>
+
+            </svg>
+
+            Download Resume
+
+          </a>
+
+        </div>
+
       </div>
+
+
+      <div class="hero-photo reveal">
+
+        <img
+          src="WhatsApp Image 2026-07-31 at 10.01.29 AM.jpeg"
+          alt="Pranav S photo">
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+     ===================================================== -->
+
+<section id="about">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">01</span>
+      About
+
+    </div>
+
+
+    <div class="about-grid">
+
+      <div class="about-copy reveal">
+
+        <p>
+          Mechatronics engineering student with hands-on
+          experience in PLC programming, electrical panel
+          building, and mechanical design across AutoCAD,
+          Fusion 360, SolidWorks, and Autodesk Inventor.
+        </p>
+
+        <p>
+          Brings a wide range of experience across
+          electrical systems in PLC panels — from wiring
+          and hardware assembly to ladder logic development
+          — paired with practical robotics exposure through
+          Robocon 2025 and an independently built Automated
+          Guided Vehicle (AGV).
+        </p>
+
+      </div>
+
+
+      <div class="edu-card reveal">
+
+        <h3>
+          Education
+        </h3>
+
+        <p>
+          B.E. Mechatronics Engineering
+        </p>
+
+        <p>
+          Kumaraguru College of Technology
+        </p>
+
+        <p class="mono">
+          2024 — 2028
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     EXPERIENCE
+     ===================================================== -->
+
+<section id="experience">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">02</span>
+      Experience
+
+    </div>
+
+
+    <div class="exp-list">
+
+
       <div class="exp-item reveal">
-        <div class="exp-date mono">JUN 2026</div>
-        <div>
-          <h3>PLC Programming &amp; Design Intern</h3>
-          <div class="org">Suntech Energreen Private Limited — Arni, Tamil Nadu</div>
-          <ul>
-            <li>Completed a structured 208-hour internship spanning PLC programming, electrical panel building, and 3D design</li>
-            <li>Developed and tested ladder logic programs using Delta WPLSoft under the guidance of the Engineering Technical Manager</li>
-            <li>Assisted in electrical panel building and wiring for industrial control systems</li>
-            <li>Applied CAD tools to mechanical design and 3D modeling tasks</li>
-          </ul>
+
+        <div class="exp-date">
+          2025
         </div>
+
+        <div class="exp-content">
+
+          <h3>
+            Robocon
+          </h3>
+
+          <div class="company">
+            Robotics &amp; Automation
+          </div>
+
+          <p>
+            Practical exposure to robotics development,
+            electrical systems, mechanical integration and
+            team-based engineering work.
+          </p>
+
+        </div>
+
       </div>
+
+
       <div class="exp-item reveal">
-        <div class="exp-date mono">JUN 2025</div>
-        <div>
-          <h3>Mechanical Design Intern</h3>
-          <div class="org"><span class="fill-tag">add company name</span></div>
-          <ul>
-            <li>Completed a 200-hour mechanical design internship focused on CAD modeling and design fundamentals</li>
-            <li>Built practical skills across mechanical design workflows ahead of the following year's PLC internship</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= SKILLS ================= -->
-  <section id="skills">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">03</span> Skills
-      </div>
-      <div class="skills-grid">
-        <div class="skill-card reveal">
-          <h3>CAD &amp; Mechanical Design</h3>
-          <div class="badges">
-            <span class="badge">AutoCAD</span><span class="badge">Fusion 360</span>
-            <span class="badge">SolidWorks</span><span class="badge">Autodesk Inventor</span>
-          </div>
+        <div class="exp-date">
+          2025 — 2026
         </div>
-        <div class="skill-card reveal">
-          <h3>Automation / PLC</h3>
-          <div class="badges">
-            <span class="badge">Delta WPLSoft</span><span class="badge">Ladder Logic</span>
-            <span class="badge">Timers</span><span class="badge">SET/RST Latches</span>
-            <span class="badge">200 Hrs — PLC (Jun 2026)</span>
-          </div>
-        </div>
-        <div class="skill-card reveal">
-          <h3>Electrical Systems</h3>
-          <div class="badges">
-            <span class="badge">PLC Panel Building</span><span class="badge">Wide-range Panel Wiring</span>
-            <span class="badge">Electrical Hardware Systems</span><span class="badge">PLC System Wiring</span>
-          </div>
-        </div>
-        <div class="skill-card reveal">
-          <h3>Fabrication</h3>
-          <div class="badges">
-            <span class="badge">Hands-on Fabrication</span><span class="badge">Prototyping</span>
-            <span class="badge">Fabricating Machines</span>
-          </div>
-        </div>
-        <div class="skill-card reveal">
-          <h3>Mechanical Design</h3>
-          <div class="badges">
-            <span class="badge">200 Hrs — Mechanical Design (Jun 2025)</span>
-          </div>
-        </div>
-      </div>
-      <div class="soft-skills-section reveal">
-        <h3>Soft Skills</h3>
-        <div class="skills-grid">
-          <div class="skill-card">
-            <div class="badges">
-              <span class="badge">Leadership</span><span class="badge">Teamwork</span>
-              <span class="badge">Problem Solving</span><span class="badge">Communication</span>
-              <span class="badge">Time Management</span><span class="badge">Adaptability</span>
-              <span class="badge">Quick Learner</span><span class="badge">Critical Thinking</span>
-            </div>
-          </div>
-        </div>
-      </div>
-        <div class="skill-card reveal">
-          <h3>Mechanical Design</h3>
-          <div class="badges">
-            <span class="badge">200 Hrs — Mechanical Design (Jun 2025)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= LEADERSHIP ================= -->
-  <section id="leadership">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">04</span> Leadership
+        <div class="exp-content">
+
+          <h3>
+            Engineering Projects
+          </h3>
+
+          <div class="company">
+            Academic &amp; Independent Work
+          </div>
+
+          <p>
+            Worked across electrical panel systems,
+            PLC programming, mechanical design,
+            embedded systems and automation projects.
+          </p>
+
+        </div>
+
       </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     SKILLS
+     ===================================================== -->
+
+<section id="skills">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">03</span>
+      Skills
+
+    </div>
+
+
+    <div class="skills-grid">
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          PLC &amp; Automation
+        </h3>
+
+        <p>
+          PLC programming, ladder logic, electrical
+          panel building, wiring and industrial
+          automation fundamentals.
+        </p>
+
+      </div>
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          Mechanical Design
+        </h3>
+
+        <p>
+          AutoCAD, Fusion 360, SolidWorks and
+          Autodesk Inventor for mechanical design
+          and modelling.
+        </p>
+
+      </div>
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          Electrical Systems
+        </h3>
+
+        <p>
+          Electrical hardware, control panels,
+          wiring, component integration and
+          troubleshooting.
+        </p>
+
+      </div>
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          Robotics
+        </h3>
+
+        <p>
+          Robotics fundamentals, AGV development,
+          system integration and practical
+          mechatronics applications.
+        </p>
+
+      </div>
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          Embedded Systems
+        </h3>
+
+        <p>
+          Microcontrollers, sensors, actuators,
+          basic embedded programming and
+          IoT-oriented systems.
+        </p>
+
+      </div>
+
+
+      <div class="skill-card reveal">
+
+        <h3>
+          Engineering Tools
+        </h3>
+
+        <p>
+          CAD tools, simulation workflows,
+          documentation and engineering
+          project development.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEADERSHIP
+     ===================================================== -->
+
+<section id="leadership">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">04</span>
+      Leadership
+
+    </div>
+
+
+    <div class="leadership-grid">
+
+
       <div class="lead-card reveal">
-        <div class="lead-badge">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div>
-          <h3>Vice President — Mechatronics Engineering Department</h3>
-          <div class="org">Kumaraguru College of Technology</div>
-          <p>Elected to represent the Mechatronics Engineering department in a student leadership capacity, coordinating alongside faculty and peers on department activities.</p>
-          <span class="fill-tag">add specifics — initiatives led, team size, events organized</span>
-        </div>
+
+        <h3>
+          Team Collaboration
+        </h3>
+
+        <p>
+          Worked collaboratively across mechanical,
+          electrical and automation tasks while
+          contributing to project execution.
+        </p>
+
       </div>
+
+
       <div class="lead-card reveal">
-        <div class="lead-badge">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+
+        <h3>
+          Project Coordination
+        </h3>
+
+        <p>
+          Participated in engineering projects involving
+          planning, design, implementation and
+          troubleshooting.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROJECTS
+     ===================================================== -->
+
+<section id="projects">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">05</span>
+      Projects
+
+    </div>
+
+
+    <div class="proj-grid">
+
+
+      <article class="proj-card reveal">
+
+        <span class="proj-tag">
+          Robotics
+        </span>
+
+        <h3>
+          Automated Guided Vehicle
+        </h3>
+
+        <p>
+          Independently developed an AGV concept
+          combining mechanical structure, electrical
+          systems and control elements.
+        </p>
+
+      </article>
+
+
+      <article class="proj-card reveal">
+
+        <span class="proj-tag">
+          Robotics
+        </span>
+
+        <h3>
+          Robocon
+        </h3>
+
+        <p>
+          Practical robotics experience involving
+          mechanical and electrical integration,
+          testing and team-based development.
+        </p>
+
+      </article>
+
+
+      <article class="proj-card reveal">
+
+        <span class="proj-tag">
+          Automation
+        </span>
+
+        <h3>
+          PLC Control Panel
+        </h3>
+
+        <p>
+          Hands-on work involving PLC programming,
+          electrical wiring, panel assembly and
+          control-system development.
+        </p>
+
+      </article>
+
+
+      <article class="proj-card reveal">
+
+        <span class="proj-tag">
+          Mechanical Design
+        </span>
+
+        <h3>
+          CAD Design Projects
+        </h3>
+
+        <p>
+          Designed and developed mechanical models
+          using CAD tools including Fusion 360,
+          SolidWorks and Autodesk Inventor.
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROTOSEM
+     ===================================================== -->
+
+<section id="protosem">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">06</span>
+      Protosem
+
+    </div>
+
+
+    <div class="week-tabs">
+
+      <button
+        class="week-tab active"
+        data-week="week1">
+        Week 1
+      </button>
+
+      <button
+        class="week-tab"
+        data-week="week2">
+        Week 2
+      </button>
+
+      <button
+        class="week-tab"
+        data-week="week3">
+        Week 3
+      </button>
+
+      <button
+        class="week-tab"
+        data-week="week4">
+        Week 4
+      </button>
+
+      <button
+        class="week-tab"
+        data-week="week5">
+        Week 5
+      </button>
+
+    </div>
+
+
+    <div
+      class="week-panel active"
+      id="week1">
+
+      <h3>
+        Foundation &amp; Orientation
+      </h3>
+
+      <p>
+        Introduction to the ProtoSem learning
+        environment, engineering workflows,
+        teamwork and project development.
+      </p>
+
+    </div>
+
+
+    <div
+      class="week-panel"
+      id="week2">
+
+      <h3>
+        Engineering Exploration
+      </h3>
+
+      <p>
+        Explored engineering tools, problem solving
+        approaches and practical project development.
+      </p>
+
+    </div>
+
+
+    <div
+      class="week-panel"
+      id="week3">
+
+      <h3>
+        Design &amp; Development
+      </h3>
+
+      <p>
+        Worked on design activities, modelling,
+        documentation and project-oriented tasks.
+      </p>
+
+    </div>
+
+
+    <div
+      class="week-panel"
+      id="week4">
+
+      <h3>
+        Fusion 360 &amp; Prototyping
+      </h3>
+
+      <p>
+        Worked on Fusion 360 modelling, a water bottle
+        model, 3D printing, visionary selection,
+        alpha-team activities, laser cutting and
+        project discussions.
+      </p>
+
+    </div>
+
+
+    <div
+      class="week-panel"
+      id="week5">
+
+      <h3>
+        UI/UX &amp; Project Management
+      </h3>
+
+      <p>
+        Worked with Figma for UI/UX, developed problem
+        statements, conducted surveys and participated
+        in a project-management session.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     IOT LEARNING
+     ===================================================== -->
+
+<section
+  id="iot"
+  class="iot-section">
+
+  <div class="wrap">
+
+
+    <!-- SECTION TITLE -->
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">
+        07
+      </span>
+
+      IoT Learning
+
+    </div>
+
+
+    <!-- INTRO -->
+
+    <p class="iot-intro reveal">
+
+      Hands-on IoT learning covering ESP32 web control,
+      Adafruit IO, automation, Firebase dashboards and
+      data logging. Select a project below to explore
+      the detailed learning page.
+
+    </p>
+
+
+    <!-- IOT PROJECT GRID -->
+
+    <div class="iot-grid">
+
+
+      <!-- =================================================
+           ESP32
+           ================================================= -->
+
+      <article class="iot-card reveal">
+
+        <div class="iot-image-wrap">
+
+          <img
+            class="iot-image"
+            src="iot/esp32-web-server.jpeg"
+            alt="ESP32 Web Server project"
+            loading="lazy">
+
         </div>
+
+
+        <div class="iot-content">
+
+          <span class="iot-tag">
+            01 · Embedded Web Control
+          </span>
+
+          <h3>
+            ESP32 Web Server
+          </h3>
+
+          <p>
+            ESP32-based local web server with a browser
+            interface for device control.
+          </p>
+
+          <a
+            class="iot-button"
+            href="iot/esp32-web-server.html">
+
+            Explore Project →
+
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           ADAFRUIT
+           ================================================= -->
+
+      <article class="iot-card reveal">
+
+        <div class="iot-image-wrap">
+
+          <img
+            class="iot-image"
+            src="iot/adafruit-dashboard.jpeg"
+            alt="Adafruit IO dashboard project"
+            loading="lazy">
+
+        </div>
+
+
+        <div class="iot-content">
+
+          <span class="iot-tag">
+            02 · Cloud IoT
+          </span>
+
+          <h3>
+            Adafruit IO
+          </h3>
+
+          <p>
+            Cloud-based IoT dashboard and remote
+            device-control learning using Adafruit IO.
+          </p>
+
+          <a
+            class="iot-button"
+            href="iot/adafruit-mqtt.html">
+
+            Explore Project →
+
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           IFTTT
+           ================================================= -->
+
+      <article class="iot-card reveal">
+
+        <div class="iot-image-wrap">
+
+          <img
+            class="iot-image"
+            src="iot/ifttt-automation.jpeg"
+            alt="IFTTT automation project"
+            loading="lazy">
+
+        </div>
+
+
+        <div class="iot-content">
+
+          <span class="iot-tag">
+            03 · Automation
+          </span>
+
+          <h3>
+            IFTTT Automation
+          </h3>
+
+          <p>
+            Exploration of connected-service triggers
+            and automation workflows for IoT applications.
+          </p>
+
+          <a
+            class="iot-button"
+            href="iot/ifttt-automation.html">
+
+            Explore Project →
+
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           FIREBASE DASHBOARD
+           ================================================= -->
+
+      <article class="iot-card reveal">
+
+        <div class="iot-image-wrap">
+
+          <img
+            class="iot-image"
+            src="iot/firebase-dashboard.jpeg"
+            alt="Firebase dashboard project"
+            loading="lazy">
+
+        </div>
+
+
+        <div class="iot-content">
+
+          <span class="iot-tag">
+            04 · Firebase
+          </span>
+
+          <h3>
+            Firebase Dashboard
+          </h3>
+
+          <p>
+            Web dashboard learning focused on Firebase
+            integration for an IoT application.
+          </p>
+
+          <a
+            class="iot-button"
+            href="iot/firebase-dashboard.html">
+
+            Explore Project →
+
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           FIREBASE LOGGING
+           ================================================= -->
+
+      <article class="iot-card reveal">
+
+        <div class="iot-image-wrap">
+
+          <img
+            class="iot-image"
+            src="iot/firebase-logging.jpeg"
+            alt="Firebase data logging project"
+            loading="lazy">
+
+        </div>
+
+
+        <div class="iot-content">
+
+          <span class="iot-tag">
+            05 · Data Logging
+          </span>
+
+          <h3>
+            Firebase Data Logging
+          </h3>
+
+          <p>
+            Learning focused on storing and viewing
+            IoT-related information through a Firebase-based
+            workflow.
+          </p>
+
+          <a
+            class="iot-button"
+            href="iot/firebase-logging.html">
+
+            Explore Project →
+
+          </a>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT
+     ===================================================== -->
+
+<section id="contact">
+
+  <div class="wrap">
+
+    <div class="datum reveal">
+
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5">
+
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="5"/>
+
+      </svg>
+
+      <span class="idx">
+        08
+      </span>
+
+      Contact
+
+    </div>
+
+
+    <div class="contact-grid">
+
+
+      <a
+        class="contact-card reveal"
+        href="mailto:pranav@example.com">
+
         <div>
-          <h3>Technical Manager — AGV Team</h3>
-          <div class="org">Kumaraguru College of Technology</div>
-          <p>Leading the technical direction of the Automated Guided Vehicle (AGV) team, overseeing mechanical design, fabrication, and automation work across the build.</p>
+
+          <div class="lbl">
+            Email
+          </div>
+
+          <div class="val">
+            pranav@example.com
+          </div>
+
         </div>
-      </div>
-      <div class="lead-card reveal">
-        <div class="lead-badge">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-8-4.5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-8 11-8 11z"/></svg>
-        </div>
+
+      </a>
+
+
+      <a
+        class="contact-card reveal"
+        href="https://github.com/"
+        target="_blank">
+
         <div>
-          <h3>Technical Manager — Neonatal Bot Team</h3>
-          <div class="org">Kumaraguru College of Technology</div>
-          <p>Leading the technical direction of the Neonatal Bot team, coordinating design and engineering work toward the project's goals.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= PROJECTS ================= -->
-  <section id="projects">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">05</span> Projects
-      </div>
-      <div class="proj-grid">
-        <div class="proj-card reveal">
-          <span class="proj-tag">Team Project — Robocon 2025</span>
-          <h3>Robocon 2025</h3>
-          <p>Part of a team that designed and fabricated a competition robot for the national-level robotics competition — contributed to mechanical design and fabrication.</p>
-          <span class="fill-tag">add specifics — subsystem, role, result</span>
-        </div>
-        <div class="proj-card reveal">
-          <span class="proj-tag">Team Project — Technical Manager</span>
-          <h3>AGV — Automated Guided Vehicle</h3>
-          <p>Serving as Technical Manager for a team designing and building an AGV robot, applying mechanical design, fabrication, and automation know-how across the build.</p>
-          <span class="fill-tag">add specifics — sensors, navigation approach</span>
-        </div>
-        <div class="proj-empty reveal">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14m-7-7h14"/></svg>
-          <div style="font-size:14px;">Next project slots in here</div>
-        </div>
-      </div>
-    </div>
-  </section>
+          <div class="lbl">
+            GitHub
+          </div>
 
-  <!-- ================= PROTOSEM (WEEKLY LOG) ================= -->
-  <!-- To add a new week: duplicate one <button class="week-tab" data-week="week-NN"> in .week-tabs,
-       and duplicate one <div class="week-panel" id="week-NN"> in .week-panels with that week's updates. -->
-  <section id="protosem">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">06</span> Protosem
-      </div>
-      <p class="protosem-intro reveal">Weekly build log from the Protosem internship at Forge, Kumaraguru College of Technology — updated at the end of every week.</p>
-      <div class="week-tabs reveal" id="week-tabs">
-        <a class="week-tab" href="week0.html">Week 00</a>
-        <a class="week-tab" href="week1.html">Week 01</a>
-        <a class="week-tab" href="week2.html">Week 02</a>
-        <a class="week-tab" href="week3.html">Week 03</a>
-        <a class="week-tab" href="week4.html">Week 04</a>
-        <a class="week-tab" href="week5.html">Week 05</a>
-        <a class="week-tab" href="week6.html">Week 06</a>
-        <a class="week-tab" href="week7.html">Week 07</a>
-        <a class="week-tab" href="week8.html">Week 08</a>
-        <a class="week-tab" href="week9.html">Week 09</a>
-        <a class="week-tab" href="week10.html">Week 10</a>
-        <a class="week-tab" href="week11.html">Week 11</a>
-        <a class="week-tab" href="week12.html">Week 12</a>
-        <a class="week-tab" href="week13.html">Week 13</a>
-        <a class="week-tab" href="week14.html">Week 14</a>
-        <a class="week-tab" href="week15.html">Week 15</a>
-        <a class="week-tab" href="week16.html">Week 16</a>
-        <a class="week-tab" href="week17.html">Week 17</a>
-        <a class="week-tab" href="week18.html">Week 18</a>
-        <a class="week-tab" href="week19.html">Week 19</a>
-        <a class="week-tab" href="week20.html">Week 20</a>
-        
-      </div>
-      <div class="week-panels reveal" id="week-panels">
-        <div class="week-panel active" id="week-00">
-          <h3>Week 00 — Orientation</h3>
-          <div class="week-dates mono">Completed 16 personality assessment</div>
-          <ul>
-            <nav>week1.html</nav>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-01">
-          <h3>Week 01</h3>
-          <div class="week-dates mono">Week 01 — Zen Pencils</div>
-          <ul>
-            <li>Learned and worked with 5S methodology to improve organization and workflow.</li>
-            <li>Learned about batteries and battery management systems (BMS).</li>
-            <li>Created and updated our portfolio to reflect new progress and projects.</li>
-            <li>In the upcoming days I will continue updating my weekly work progress.</li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-02">
-          <h3>Week 02</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>sh
-        <div class="week-panel" id="week-03">
-          <h3>Week 03</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-04">
-          <h3>Week 04</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-05">
-          <h3>Week 05</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-06">
-          <h3>Week 06</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-07">
-          <h3>Week 07</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-08">
-          <h3>Week 08</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-09">
-          <h3>Week 09</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-10">
-          <h3>Week 10</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-11">
-          <h3>Week 11</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-12">
-          <h3>Week 12</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-13">
-          <h3>Week 13</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-14">
-          <h3>Week 14</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-15">
-          <h3>Week 15</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-16">
-          <h3>Week 16</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-17">
-          <h3>Week 17</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-18">
-          <h3>Week 18</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-19">
-          <h3>Week 19</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-        <div class="week-panel" id="week-20">
-          <h3>Week 20</h3>
-          <div class="week-dates mono">add dates</div>
-          <ul>
-            <li><span class="fill-tag">add this week's work summary</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+          <div class="val">
+            pranav222006
+          </div>
 
-  <!-- ================= CONTACT ================= -->
-  <section id="contact">
-    <div class="wrap">
-      <div class="datum reveal">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg>
-        <span class="idx">07</span> Contact
-      </div>
-      <div class="contact-grid reveal">
-        <a class="contact-card reveal" href="mailto:pranav.x.saraavanan@gmail.com">
-          <div class="contact-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
-          <div><div class="lbl">Email</div><div class="val">pranav.x.saraavanan@gmail.com</div></div>
-        </a>
-        <a class="contact-card reveal" href="https://www.linkedin.com/in/pranav-s-18461a328" target="_blank" rel="noopener">
-          <div class="contact-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
-          <div><div class="lbl">LinkedIn</div><div class="val">pranav-s-18461a328</div></div>
-        </a>
-        <a class="contact-card reveal" href="https://github.com/pranav222006" target="_blank" rel="noopener">
-          <div class="contact-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91.5S18.73.15 16 2a13.38 13.38 0 0 0-7 0C6.27.15 5.09.5 5.09.5A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
-          <div><div class="lbl">GitHub</div><div class="val">pranav222006</div></div>
-        </a>
-      </div>
-      <div style="margin-top:32px;">
-        <a href="PRANAV RESUME.pdf" target="_blank" class="btn btn-primary reveal">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
-          Download Resume
-        </a>
-      </div>
+        </div>
+
+      </a>
+
+
     </div>
-  </section>
+
+
+    <div style="margin-top:32px;">
+
+      <a
+        href="PRANAV RESUME.pdf"
+        target="_blank"
+        class="btn btn-primary reveal">
+
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+
+          <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/>
+
+        </svg>
+
+        Download Resume
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
 </main>
 
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
 <footer>
+
   <div class="wrap footer-row">
-    <span>Pranav S · © <span id="year"></span></span>
-    <span class="mono">Built with HTML, CSS &amp; JS</span>
+
+    <span>
+      Pranav S · ©
+      <span id="year"></span>
+    </span>
+
+    <span class="mono">
+      Built with HTML, CSS &amp; JS
+    </span>
+
   </div>
+
 </footer>
 
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
 
-  const header = document.querySelector('header');
-  const heroPhoto = document.querySelector('.hero-photo');
+/* =====================================================
+   YEAR
+   ===================================================== */
 
-  const setHeaderState = () => {
-    if (window.scrollY > 12) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  };
-  setHeaderState();
-  window.addEventListener('scroll', setHeaderState, { passive: true });
+document.getElementById('year').textContent =
+  new Date().getFullYear();
 
-  // mobile menu
-  const hamburger = document.getElementById('hamburger');
-  const sheet = document.getElementById('mobile-sheet');
-  hamburger.addEventListener('click', () => {
-    const open = sheet.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', open);
-  });
-  document.querySelectorAll('.mobile-sheet a').forEach(a=>{
-    a.addEventListener('click', ()=>{ sheet.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); });
-  });
 
-  // protosem week tabs
-  const weekTabs = document.querySelectorAll('.week-tab');
-  const weekPanels = document.querySelectorAll('.week-panel');
-  weekTabs.forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      if (!tab.dataset.week) return;
-      weekTabs.forEach(t=>t.classList.remove('active'));
-      weekPanels.forEach(p=>p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.week).classList.add('active');
-    });
-  });
+/* =====================================================
+   HEADER SCROLL
+   ===================================================== */
 
-  // scroll reveal with a touch of motion
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold:0.15 });
-  revealEls.forEach(el=>io.observe(el));
+const header =
+  document.querySelector('header');
 
-  // subtle parallax on the hero portrait
-  let raf;
-  const updatePortraitParallax = (event) => {
-    if (!heroPhoto) return;
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => {
-      const rect = heroPhoto.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 8;
-      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
-      heroPhoto.style.setProperty('--shift-x', `${x}px`);
-      heroPhoto.style.setProperty('--shift-y', `${y}px`);
-    });
-  };
-  window.addEventListener('pointermove', updatePortraitParallax);
-  window.addEventListener('pointerleave', () => {
-    if (heroPhoto) {
-      heroPhoto.style.setProperty('--shift-x', '0px');
-      heroPhoto.style.setProperty('--shift-y', '0px');
-    }
-  });
+const heroPhoto =
+  document.querySelector('.hero-photo');
 
-  document.body.classList.add('ready');
 
-  // scrollspy for nav + rail
-  const sections = document.querySelectorAll('main section, .hero');
-  const navlinks = document.querySelectorAll('.navlink, .rail a');
-  const spy = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const id = entry.target.id;
-        navlinks.forEach(l=>{
-          l.classList.toggle('active', l.dataset.sec === id);
-        });
+const setHeaderState = () => {
+
+  if(window.scrollY > 12){
+
+    header.classList.add('scrolled');
+
+  }else{
+
+    header.classList.remove('scrolled');
+
+  }
+
+};
+
+
+setHeaderState();
+
+window.addEventListener(
+  'scroll',
+  setHeaderState,
+  { passive:true }
+);
+
+
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+
+const hamburger =
+  document.getElementById('hamburger');
+
+const sheet =
+  document.getElementById('mobile-sheet');
+
+
+hamburger.addEventListener(
+  'click',
+  () => {
+
+    const open =
+      sheet.classList.toggle('open');
+
+    hamburger.setAttribute(
+      'aria-expanded',
+      open
+    );
+
+  }
+);
+
+
+document
+  .querySelectorAll('.mobile-sheet a')
+  .forEach(a => {
+
+    a.addEventListener(
+      'click',
+      () => {
+
+        sheet.classList.remove('open');
+
+        hamburger.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+
       }
-    });
-  }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
-  sections.forEach(s=>spy.observe(s));
+    );
+
+  });
+
+
+/* =====================================================
+   PROTOSEM WEEK TABS
+   ===================================================== */
+
+const weekTabs =
+  document.querySelectorAll('.week-tab');
+
+const weekPanels =
+  document.querySelectorAll('.week-panel');
+
+
+weekTabs.forEach(tab => {
+
+  tab.addEventListener(
+    'click',
+    () => {
+
+      if(!tab.dataset.week) return;
+
+
+      weekTabs.forEach(
+        t => t.classList.remove('active')
+      );
+
+
+      weekPanels.forEach(
+        p => p.classList.remove('active')
+      );
+
+
+      tab.classList.add('active');
+
+
+      const panel =
+        document.getElementById(
+          tab.dataset.week
+        );
+
+
+      if(panel){
+        panel.classList.add('active');
+      }
+
+    }
+  );
+
+});
+
+
+/* =====================================================
+   SCROLL REVEAL
+   ===================================================== */
+
+const revealEls =
+  document.querySelectorAll('.reveal');
+
+
+const io =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(e => {
+
+        if(e.isIntersecting){
+
+          e.target.classList.add('in');
+
+          io.unobserve(e.target);
+
+        }
+
+      });
+
+    },
+    {
+      threshold:0.15
+    }
+  );
+
+
+revealEls.forEach(
+  el => io.observe(el)
+);
+
+
+/* =====================================================
+   HERO PORTRAIT PARALLAX
+   ===================================================== */
+
+let raf;
+
+
+const updatePortraitParallax =
+  (event) => {
+
+    if(!heroPhoto) return;
+
+    if(raf){
+      cancelAnimationFrame(raf);
+    }
+
+
+    raf =
+      requestAnimationFrame(
+        () => {
+
+          const rect =
+            heroPhoto.getBoundingClientRect();
+
+
+          const x =
+            (event.clientX /
+              window.innerWidth - .5) * 8;
+
+
+          const y =
+            (event.clientY /
+              window.innerHeight - .5) * 8;
+
+
+          if(
+            rect.bottom > 0 &&
+            rect.top < window.innerHeight
+          ){
+
+            heroPhoto.style.transform =
+              `translate3d(${x}px, ${y}px, 0)`;
+
+          }
+
+        }
+      );
+
+  };
+
+
+window.addEventListener(
+  'mousemove',
+  updatePortraitParallax,
+  { passive:true }
+);
+
+
+/* =====================================================
+   SCROLL SPY
+   ===================================================== */
+
+const sections =
+  document.querySelectorAll(
+    'main section, .hero'
+  );
+
+
+const navlinks =
+  document.querySelectorAll(
+    '.navlink, .rail a'
+  );
+
+
+const observer =
+  new IntersectionObserver(
+    entries => {
+
+      entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+          const id =
+            entry.target.id;
+
+
+          navlinks.forEach(link => {
+
+            link.classList.toggle(
+              'active',
+              link.dataset.sec === id
+            );
+
+          });
+
+        }
+
+      });
+
+    },
+    {
+      rootMargin:'-35% 0px -55% 0px',
+      threshold:0
+    }
+  );
+
+
+sections.forEach(
+  section => observer.observe(section)
+);
+
 </script>
 
 </body>

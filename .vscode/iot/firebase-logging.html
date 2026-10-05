@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Firebase Logging & Automation | IoT Learning</title>
+
+<link rel="stylesheet" href="iot.css">
+
+</head>
+
+<body>
+
+
+<nav class="navbar">
+
+<div class="nav-container">
+
+<div class="logo">SMART_HOME</div>
+
+<div class="nav-links">
+
+<a href="index.html">Home</a>
+<a href="iot.html" class="active">IoT Learning</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<header class="hero">
+
+<span class="tag">TASK 05</span>
+
+<h1>
+Firebase Logging, <span>Automation & Data Export</span>
+</h1>
+
+<p>
+Historical IoT monitoring, manual and automatic appliance control,
+data logging and CSV export.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="section">
+
+<div class="section-number">01</div>
+
+<h2>Overview</h2>
+
+<div class="card">
+
+<p>
+The Smart Home dashboard includes a historical-data section,
+a data-log table and a CSV download function.
+</p>
+
+<p>
+The system also provides manual and automatic operating modes
+and an adjustable LDR threshold.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">02</div>
+
+<h2>Concepts</h2>
+
+<div class="grid">
+
+<div class="info-box">
+<h3>Data Logging</h3>
+<p>
+IoT measurements can be stored for later review.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Historical Data</h3>
+<p>
+Previously recorded sensor values can be represented graphically.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Automation</h3>
+<p>
+The dashboard provides manual and automatic operating modes.
+</p>
+</div>
+
+<div class="info-box">
+<h3>CSV Export</h3>
+<p>
+Logged information can be prepared for download as CSV data.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">03</div>
+
+<h2>System Design</h2>
+
+<div class="card">
+
+<div class="flow">
+
+<div class="flow-box">Sensors</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">ESP32</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">Firebase</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">Dashboard</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">CSV</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">04</div>
+
+<h2>Hardware & Software</h2>
+
+<div class="grid">
+
+<div class="info-box">
+
+<h3>Hardware</h3>
+
+<ul>
+<li>ESP32</li>
+<li>DHT11</li>
+<li>LDR</li>
+<li>Relay</li>
+<li>230V AC Bulb</li>
+</ul>
+
+</div>
+
+<div class="info-box">
+
+<h3>Software</h3>
+
+<ul>
+<li>Firebase</li>
+<li>HTML</li>
+<li>CSS</li>
+<li>JavaScript</li>
+<li>Arduino IDE</li>
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">05</div>
+
+<h2>Wiring / Setup</h2>
+
+<div class="card">
+
+<p>
+The hardware setup consists of the ESP32, DHT11, LDR,
+relay and bulb described in the Smart Home documentation.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">06</div>
+
+<h2>Implementation</h2>
+
+<div class="card">
+
+<p>
+The dashboard provides a Historical Data section with a graph
+area and a Data Log table.
+</p>
+
+<p>
+The data table is structured to display timestamp,
+temperature, humidity, LDR, bulb state and operating mode.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">07</div>
+
+<h2>Configuration</h2>
+
+<div class="card">
+
+<ul>
+<li>Manual Mode available.</li>
+<li>Automatic Mode available.</li>
+<li>LDR threshold can be configured.</li>
+<li>Historical data section included.</li>
+<li>Data log table included.</li>
+<li>CSV download control included.</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">08</div>
+
+<h2>Evidence</h2>
+
+<div class="image-grid">
+
+<div class="image-card">
+
+<img src="firebase-logging.jpg"
+alt="Firebase Logging Dashboard">
+
+<div class="caption">
+Historical data, automation and logging dashboard evidence.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">09</div>
+
+<h2>Challenges & Fixes</h2>
+
+<div class="card">
+
+<p>
+IoT logging requires coordination between sensor readings,
+database storage, dashboard display and downloadable data.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">10</div>
+
+<h2>Reflection</h2>
+
+<div class="card">
+
+<p>
+This task demonstrates how an IoT dashboard can go beyond
+simple ON/OFF control by including historical monitoring,
+automation modes and structured data export.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-number">11</div>
+
+<h2>Repository Link</h2>
+
+<div class="card">
+
+<a class="repo"
+href="https://github.com/"
+target="_blank">
+View GitHub Repository →
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<footer>
+Firebase Logging & Automation · IoT Learning
+</footer>
+
+
+</body>
+</html>
