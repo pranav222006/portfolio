@@ -1,0 +1,438 @@
+{% extends "base.html" %}
+
+{% block title %}VIBE CHECK — Your Mood. Your Music. Your World.{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+    <!-- Top Greeting & Header Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white" id="greetingHeader">Good day, Listener! 👋</h1>
+            <p class="text-sm text-gray-400">Discover hand-picked frequencies matching your emotional energy.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="selectRandomMood()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm flex items-center gap-2 transition border border-white/10">
+                <i class="fa-solid fa-dice text-accent-secondary"></i> Surprise Me
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Banner with Dynamic Third-Party Quote & Timeout/Fallback Telemetry -->
+    <section class="hero-banner p-8 md:p-10 rounded-3xl relative overflow-hidden shadow-2xl">
+        <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur text-white text-xs font-semibold mb-4">
+                <span id="heroMoodTag" class="w-2 h-2 rounded-full bg-accent-primary"></span>
+                <span id="heroMoodStatus">Current Vibe: HAPPY ☀️</span>
+            </div>
+            <h2 id="heroTitle" class="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
+                How are we feeling today?
+            </h2>
+            <p id="heroSubtitle" class="text-base text-gray-300 mb-6">
+                Pick your frequency. Let your digital environment mirror your soul's energy.
+            </p>
+
+            <!-- Dynamic Quote Box with Third-Party API status -->
+            <div class="p-5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-quote-left text-accent-primary opacity-60 text-xl shrink-0 mt-1"></i>
+                    <div class="space-y-1">
+                        <p id="heroQuote" class="italic text-gray-100 font-medium text-sm md:text-base leading-relaxed">
+                            {{ quote_data.quote|default:'"Sunshine is delicious, rain is refreshing, wind braces us up, snow is exhilarating."' }}
+                        </p>
+                        <div class="flex items-center justify-between text-[11px] text-gray-400 pt-1">
+                            <span id="heroAuthor">— {{ quote_data.author|default:"John Ruskin" }}</span>
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-[10px]">
+                                {% if quote_data.source == 'live_api' %}
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live ZenQuotes API ({{ quote_data.latency_ms }}ms)
+                                {% else %}
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Cached Fallback Engine ({{ quote_data.latency_ms }}ms)
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Mood Selection Cards -->
+    <section>
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-accent-primary"></i> Select Your Current Mood
+            </h3>
+            <span class="text-xs text-gray-400">Click to instantly transform your theme</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Happy Card -->
+            <div onclick="setMood('happy')" class="vibe-card p-6 rounded-2xl cursor-pointer relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-4xl">☀️</span>
+                    <span class="text-xs font-bold px-2 py-1 rounded-md bg-yellow-500/20 text-yellow-300">UPBEAT</span>
+                </div>
+                <h4 class="text-2xl font-black text-white mb-1">HAPPY</h4>
+                <p class="text-xs text-gray-400 mb-4">Feel-good pop, indie sunshine & upbeat rhythms.</p>
+                <div class="text-xs text-yellow-400 font-bold group-hover:translate-x-1 transition flex items-center gap-1">
+                    Switch Vibe <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Stressed Card -->
+            <div onclick="setMood('stressed')" class="vibe-card p-6 rounded-2xl cursor-pointer relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-4xl">🌧️</span>
+                    <span class="text-xs font-bold px-2 py-1 rounded-md bg-blue-500/20 text-blue-300">CALMING</span>
+                </div>
+                <h4 class="text-2xl font-black text-white mb-1">STRESSED</h4>
+                <p class="text-xs text-gray-400 mb-4">Ambient lo-fi, peaceful piano & grounding sounds.</p>
+                <div class="text-xs text-blue-400 font-bold group-hover:translate-x-1 transition flex items-center gap-1">
+                    Switch Vibe <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Sleepy Card -->
+            <div onclick="setMood('sleepy')" class="vibe-card p-6 rounded-2xl cursor-pointer relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-4xl">🌙</span>
+                    <span class="text-xs font-bold px-2 py-1 rounded-md bg-purple-500/20 text-purple-300">RESTFUL</span>
+                </div>
+                <h4 class="text-2xl font-black text-white mb-1">SLEEPY</h4>
+                <p class="text-xs text-gray-400 mb-4">Soft acoustic, sleep soundscapes & night tunes.</p>
+                <div class="text-xs text-purple-400 font-bold group-hover:translate-x-1 transition flex items-center gap-1">
+                    Switch Vibe <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Hyped Card -->
+            <div onclick="setMood('hyped')" class="vibe-card p-6 rounded-2xl cursor-pointer relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-4xl">⚡</span>
+                    <span class="text-xs font-bold px-2 py-1 rounded-md bg-pink-500/20 text-pink-300">HIGH ENERGY</span>
+                </div>
+                <h4 class="text-2xl font-black text-white mb-1">HYPED</h4>
+                <p class="text-xs text-gray-400 mb-4">Electronic bangers, dance anthems & heavy beats.</p>
+                <div class="text-xs text-pink-400 font-bold group-hover:translate-x-1 transition flex items-center gap-1">
+                    Switch Vibe <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggested Activities & Spotify Music Split Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Suggested Lifestyle Activities -->
+        <div class="vibe-card p-6 rounded-3xl lg:col-span-1">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-heart-pulse text-accent-secondary"></i> Suggested Lifestyle Activities
+            </h3>
+            <ul id="activityList" class="space-y-3 text-sm text-gray-300">
+                <!-- Dynamically populated via JS -->
+            </ul>
+        </div>
+
+        <!-- Spotify Music Integration Embed -->
+        <div class="vibe-card p-6 rounded-3xl lg:col-span-2 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-brands fa-spotify text-green-400 text-xl"></i> Featured Spotify Player
+                    </h3>
+                    <span class="text-xs text-gray-400">Official Spotify Integration</span>
+                </div>
+                <div id="spotifyEmbedContainer" class="rounded-2xl overflow-hidden bg-black/40 min-h-[152px]">
+                    <!-- Dynamic Spotify iFrame -->
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+                <span>Direct preview player</span>
+                <a href="#discoverSection" class="text-accent-secondary hover:underline flex items-center gap-1">
+                    Browse all playlists for this mood <i class="fa-solid fa-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hand-Curated Playlists Section -->
+    <section id="discoverSection" class="space-y-6 pt-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-black text-white">Curated Soundtracks</h3>
+                <p class="text-sm text-gray-400">Hand-selected Spotify playlists for your current frequency.</p>
+            </div>
+            <span id="discoverMoodTag" class="px-3 py-1 rounded-full bg-accent-primary/20 text-accent-primary font-bold text-xs uppercase">
+                HAPPY VIBE
+            </span>
+        </div>
+        <div id="playlistsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- Mood History & Distribution Analytics -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
+        <!-- SVG Donut Chart -->
+        <div class="vibe-card p-6 rounded-3xl lg:col-span-1">
+            <h3 class="text-lg font-bold text-white mb-4">Mood Distribution</h3>
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <div class="relative w-44 h-44 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-gray-800" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="chartHappy" stroke-dasharray="0, 100" class="text-yellow-400 transition-all duration-1000" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="chartStressed" stroke-dasharray="0, 100" stroke-dashoffset="-25" class="text-blue-400 transition-all duration-1000" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="chartSleepy" stroke-dasharray="0, 100" stroke-dashoffset="-50" class="text-purple-400 transition-all duration-1000" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="chartHyped" stroke-dasharray="0, 100" stroke-dashoffset="-75" class="text-pink-400 transition-all duration-1000" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center">
+                        <span id="totalLogsCount" class="text-2xl font-black text-white">0</span>
+                        <span class="text-[10px] text-gray-400 uppercase">Checks Logged</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5 w-full text-xs">
+                    <div class="p-2.5 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-300">
+                        <div class="text-[10px] uppercase font-bold">Happy</div>
+                        <div id="countHappy" class="text-lg font-black">0</div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300">
+                        <div class="text-[10px] uppercase font-bold">Stressed</div>
+                        <div id="countStressed" class="text-lg font-black">0</div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-300">
+                        <div class="text-[10px] uppercase font-bold">Sleepy</div>
+                        <div id="countSleepy" class="text-lg font-black">0</div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-300">
+                        <div class="text-[10px] uppercase font-bold">Hyped</div>
+                        <div id="countHyped" class="text-lg font-black">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Mood Timeline -->
+        <div class="vibe-card p-6 rounded-3xl lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-white">Recent Mood Timeline</h3>
+                <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-300">Clear Logs</button>
+            </div>
+            <div id="timelineContainer" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const MOOD_DATA = {
+        happy: {
+            name: 'HAPPY ☀️',
+            themeClass: 'theme-happy',
+            tagColor: '#FFB800',
+            quote: '"Sunshine is delicious, rain is refreshing, wind braces us up, snow is exhilarating."',
+            author: 'John Ruskin',
+            activities: [
+                'Gratitude Journaling — Write down 3 things that made you smile today.',
+                'Dance Party — Move freely to your favorite upbeat track for 5 minutes.',
+                'Outdoor Walk — Get outside and absorb some direct natural light.',
+                'Share Joy — Text a friend a compliment or funny meme.'
+            ],
+            spotifyEmbed: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXdPec7aLTmlC',
+            playlists: [
+                { title: 'Happy Hits!', desc: 'The happiest songs on the planet.', cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC' },
+                { title: 'Feelin\' Good', desc: 'Positive vibes and upbeat pop anthems.', cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0' },
+                { title: 'Indie Sunshine', desc: 'Warm acoustic indie and indie pop.', cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX2Nc3B70tvx0' }
+            ]
+        },
+        stressed: {
+            name: 'STRESSED 🌧️',
+            themeClass: 'theme-stressed',
+            tagColor: '#8EA8C3',
+            quote: '"You don\'t have to control your thoughts. You just have to stop letting them control you."',
+            author: 'Dan Millman',
+            activities: [
+                '4-7-8 Breathing — Inhale for 4s, hold for 7s, exhale slowly for 8s.',
+                'Neck & Shoulder Stretch — Release physical tension gently.',
+                'Quiet Tea Break — Sip a warm drink away from screens.',
+                'Brain Dump — Write down everything overwhelming your mind right now.'
+            ],
+            spotifyEmbed: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX0SM0LSpHYSg',
+            playlists: [
+                { title: 'Lo-Fi Beats', desc: 'Beats to relax and unwind to.', cover: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM' },
+                { title: 'Stress Relief Piano', desc: 'Soothing solo piano pieces.', cover: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO' },
+                { title: 'Deep Focus Ambient', desc: 'Minimal soundscapes for mental clarity.', cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DWZeKCadgRdKQ' }
+            ]
+        },
+        sleepy: {
+            name: 'SLEEPY 🌙',
+            themeClass: 'theme-sleepy',
+            tagColor: '#7B2CBF',
+            quote: '"Sleep is the golden chain that ties health and our bodies together."',
+            author: 'Thomas Dekker',
+            activities: [
+                'Dim Lights — Transition your room into night mode.',
+                'No-Screen Wind-down — Put phones away 30 minutes before sleep.',
+                'Progressive Relaxation — Tense and release your muscles from toes to head.',
+                'Read a Book — Gentle reading to calm brain waves.'
+            ],
+            spotifyEmbed: 'https://open.spotify.com/embed/playlist/37i9dQZF1DWZd79TjGf7su',
+            playlists: [
+                { title: 'Deep Sleep Ambient', desc: 'Peaceful frequencies for deep REM sleep.', cover: 'https://images.unsplash.com/photo-1511295742362-92c96b124e52?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DWZd79TjGf7su' },
+                { title: 'Night Rain Soundscape', desc: 'Calming rain & gentle thunder.', cover: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DXbcP8V77vPio' },
+                { title: 'Acoustic Lullabies', desc: 'Soft string instrumental melodies.', cover: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX2L0iB23Enbq' }
+            ]
+        },
+        hyped: {
+            name: 'HYPED ⚡',
+            themeClass: 'theme-hyped',
+            tagColor: '#FF007F',
+            quote: '"Energy flows where attention goes. Turn up the volume and take action!"',
+            author: 'Tony Robbins',
+            activities: [
+                'Quick HIIT Set — Do 20 jumping jacks or burpees.',
+                'Tackle Hardest Task — Channel this energy into your biggest project.',
+                'Set New Goal — Write down a bold vision for your week.',
+                'High Five Yourself — Celebrate momentum and keep going.'
+            ],
+            spotifyEmbed: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP',
+            playlists: [
+                { title: 'Beast Mode Gym', desc: 'Heavy bass & motivational bangers.', cover: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX76Wlfdnj7AP' },
+                { title: 'EDM Workout', desc: 'High BPM electronic dance hits.', cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX70RN3cMBsxs' },
+                { title: 'Hype Hop Anthems', desc: 'Aggressive rap & energetic trap beats.', cover: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80', url: 'https://open.spotify.com/playlist/37i9dQZF1DX0XUsUxW9L0M' }
+            ]
+        }
+    };
+
+    let moodHistory = JSON.parse(localStorage.getItem('vibe_history') || '[]');
+
+    function setMood(moodKey) {
+        const data = MOOD_DATA[moodKey];
+        if (!data) return;
+
+        // Apply theme class to body
+        document.body.className = `relative min-h-screen ${data.themeClass} flex flex-col justify-between`;
+
+        // Update Nav & Hero
+        const navMoodLabel = document.getElementById('navMoodLabel');
+        if (navMoodLabel) navMoodLabel.innerText = data.name;
+
+        document.getElementById('heroMoodStatus').innerText = `Current Vibe: ${data.name}`;
+        document.getElementById('discoverMoodTag').innerText = `${moodKey.toUpperCase()} VIBE`;
+
+        // Update Activities
+        document.getElementById('activityList').innerHTML = data.activities.map(act => `
+            <li class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition">
+                <i class="fa-solid fa-circle-check text-accent-primary"></i>
+                <span>${act}</span>
+            </li>
+        `).join('');
+
+        // Update Spotify Embed
+        document.getElementById('spotifyEmbedContainer').innerHTML = `
+            <iframe src="${data.spotifyEmbed}" width="100%" height="152" frameborder="0" 
+                allowtransparency="true" allow="encrypted-media" class="rounded-2xl"></iframe>
+        `;
+
+        // Render Curated Playlists
+        document.getElementById('playlistsGrid').innerHTML = data.playlists.map(p => `
+            <div class="vibe-card p-4 rounded-2xl flex flex-col justify-between group">
+                <div>
+                    <div class="relative rounded-xl overflow-hidden mb-4">
+                        <img src="${p.cover}" alt="${p.title}" class="w-full h-44 object-cover group-hover:scale-105 transition duration-500">
+                        <a href="${p.url}" target="_blank" rel="noopener noreferrer" 
+                            class="absolute right-3 bottom-3 w-11 h-11 rounded-full bg-green-500 text-black flex items-center justify-center shadow-lg hover:scale-110 transition">
+                            <i class="fa-solid fa-play text-base ml-0.5"></i>
+                        </a>
+                    </div>
+                    <h4 class="text-base font-bold text-white mb-1">${p.title}</h4>
+                    <p class="text-xs text-gray-400 mb-4">${p.desc}</p>
+                </div>
+                <a href="${p.url}" target="_blank" rel="noopener noreferrer" 
+                    class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-gray-300 flex items-center justify-center gap-2 transition">
+                    <i class="fa-brands fa-spotify text-green-400 text-sm"></i> Open in Spotify
+                </a>
+            </div>
+        `).join('');
+
+        // Log to history
+        logMoodHistory(moodKey);
+    }
+
+    function selectRandomMood() {
+        const keys = Object.keys(MOOD_DATA);
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        setMood(randomKey);
+    }
+
+    function logMoodHistory(moodKey) {
+        const entry = {
+            mood: moodKey,
+            name: MOOD_DATA[moodKey].name,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            date: new Date().toLocaleDateString()
+        };
+        moodHistory.unshift(entry);
+        moodHistory = moodHistory.slice(0, 20);
+        localStorage.setItem('vibe_history', JSON.stringify(moodHistory));
+        updateHistoryUI();
+    }
+
+    function clearHistory() {
+        moodHistory = [];
+        localStorage.removeItem('vibe_history');
+        updateHistoryUI();
+    }
+
+    function updateHistoryUI() {
+        const timeline = document.getElementById('timelineContainer');
+        const totalLogs = moodHistory.length;
+        document.getElementById('totalLogsCount').innerText = totalLogs;
+
+        if (totalLogs === 0) {
+            timeline.innerHTML = `<div class="text-center py-6 text-gray-500 text-xs">No mood logs yet. Click a mood card to begin tracking.</div>`;
+        } else {
+            timeline.innerHTML = moodHistory.map(item => `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 text-xs">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">${item.name.split(' ')[1] || '☀️'}</span>
+                        <div>
+                            <div class="font-bold text-white">${item.name}</div>
+                            <div class="text-[10px] text-gray-400">${item.date} at ${item.timestamp}</div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-semibold text-accent-primary px-2.5 py-0.5 rounded-full bg-white/5">Logged</span>
+                </div>
+            `).join('');
+        }
+
+        const counts = { happy: 0, stressed: 0, sleepy: 0, hyped: 0 };
+        moodHistory.forEach(h => { if (counts[h.mood] !== undefined) counts[h.mood]++; });
+
+        document.getElementById('countHappy').innerText = counts.happy;
+        document.getElementById('countStressed').innerText = counts.stressed;
+        document.getElementById('countSleepy').innerText = counts.sleepy;
+        document.getElementById('countHyped').innerText = counts.hyped;
+
+        if (totalLogs > 0) {
+            const happyPct = (counts.happy / totalLogs) * 100;
+            const stressedPct = (counts.stressed / totalLogs) * 100;
+            const sleepyPct = (counts.sleepy / totalLogs) * 100;
+            const hypedPct = (counts.hyped / totalLogs) * 100;
+
+            document.getElementById('chartHappy').setAttribute('stroke-dasharray', `${happyPct}, 100`);
+            document.getElementById('chartStressed').setAttribute('stroke-dasharray', `${stressedPct}, 100`);
+            document.getElementById('chartSleepy').setAttribute('stroke-dasharray', `${sleepyPct}, 100`);
+            document.getElementById('chartHyped').setAttribute('stroke-dasharray', `${hypedPct}, 100`);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setMood('happy');
+        updateHistoryUI();
+    });
+</script>
+{% endblock %}

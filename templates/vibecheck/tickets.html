@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Support Tickets — VIBE CHECK{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+    <!-- Header Banner -->
+    <div class="text-center space-y-3 max-w-2xl mx-auto">
+        <span class="inline-block px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold uppercase tracking-widest">
+            SQL Support Management Queue
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black text-white leading-tight">
+            Support Ticket Center
+        </h1>
+        <p class="text-gray-300 text-sm">
+            Whenever our AI Assistant encounters an unanswered question, it automatically opens an engineering ticket here. You can also file a ticket manually below.
+        </p>
+    </div>
+
+    <!-- Alert for newly created ticket -->
+    {% if created_id %}
+        <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 flex items-center justify-between text-xs max-w-2xl mx-auto">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-base"></i>
+                <span>Your support ticket <strong>#{{ created_id }}</strong> has been logged to the SQL database!</span>
+            </div>
+            <a href="{% url 'tickets' %}" class="underline font-bold">Dismiss</a>
+        </div>
+    {% endif %}
+
+    <!-- Tickets Stats Overview -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="vibe-card p-5 rounded-2xl border border-white/10">
+            <span class="text-xs font-bold text-gray-400 uppercase">Total Tickets Logged</span>
+            <div class="text-3xl font-black text-white mt-1">{{ total_tickets }}</div>
+        </div>
+        <div class="vibe-card p-5 rounded-2xl border border-white/10">
+            <span class="text-xs font-bold text-amber-400 uppercase">Awaiting Support / Open</span>
+            <div class="text-3xl font-black text-amber-300 mt-1">{{ open_tickets }}</div>
+        </div>
+        <div class="vibe-card p-5 rounded-2xl border border-white/10">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Database Storage</span>
+            <div class="text-sm font-bold text-gray-200 mt-2">SQL Relational Tables (ORM)</div>
+        </div>
+    </div>
+
+    <!-- Tickets Search & List -->
+    <div class="vibe-card p-6 rounded-3xl border border-white/10 space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-accent-primary"></i> Active Ticket Records
+            </h3>
+            <!-- Search by Ticket ID -->
+            <form method="GET" action="{% url 'tickets' %}" class="flex items-center gap-2 w-full sm:w-auto">
+                <input type="text" name="ticket_id" value="{{ search_id }}" placeholder="Search by Ticket ID (e.g. TCK-)" 
+                    class="px-3.5 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-accent-primary">
+                <button type="submit" class="px-3 py-2 rounded-xl btn-primary text-xs font-bold">Search</button>
+                {% if search_id %}
+                    <a href="{% url 'tickets' %}" class="px-2.5 py-2 rounded-xl bg-white/10 text-gray-300 text-xs">Reset</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-gray-300">
+                <thead class="text-[11px] text-gray-400 uppercase border-b border-white/10 pb-2">
+                    <tr>
+                        <th class="py-3 px-4">Ticket ID</th>
+                        <th class="py-3 px-4">Subject & Details</th>
+                        <th class="py-3 px-4">Requester</th>
+                        <th class="py-3 px-4">Origin</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4">Created</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    {% for ticket in tickets %}
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-3.5 px-4 font-mono font-bold text-accent-secondary">{{ ticket.ticket_id }}</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-bold text-white">{{ ticket.subject }}</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{{ ticket.message }}</div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div>{{ ticket.user_name }}</div>
+                                <div class="text-[10px] text-gray-500">{{ ticket.user_email }}</div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                {% if ticket.ai_context %}
+                                    <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold">AI Auto-Created</span>
+                                {% else %}
+                                    <span class="px-2 py-0.5 rounded-full bg-white/10 text-gray-300 text-[10px]">Manual Form</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-3.5 px-4">
+                                {% if ticket.status == 'open' %}
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold text-[10px]">Open</span>
+                                {% elif ticket.status == 'in_progress' %}
+                                    <span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[10px]">In Progress</span>
+                                {% else %}
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">Resolved</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-3.5 px-4 text-gray-400 whitespace-nowrap">{{ ticket.created_at|date:"M d, H:i" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-gray-500">
+                                No support tickets found. Ask the AI assistant an unlisted question to see an automated ticket created in SQL!
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Manual Ticket Creation Form -->
+    <div class="vibe-card p-6 md:p-8 rounded-3xl border border-white/10 max-w-2xl mx-auto space-y-6">
+        <div>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-accent-secondary"></i> Submit a Support Ticket Manually
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">Need human assistance or want to report an issue directly?</p>
+        </div>
+
+        <form method="POST" action="{% url 'tickets' %}" class="space-y-4 text-xs">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-300 uppercase font-bold text-[10px] mb-1">Your Name</label>
+                    <input type="text" name="user_name" required placeholder="Alex Vibe" 
+                        class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent-primary">
+                </div>
+                <div>
+                    <label class="block text-gray-300 uppercase font-bold text-[10px] mb-1">Your Email</label>
+                    <input type="email" name="user_email" required placeholder="alex@vibecheck.io" 
+                        class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent-primary">
+                </div>
+            </div>
+            <div>
+                <label class="block text-gray-300 uppercase font-bold text-[10px] mb-1">Issue Subject</label>
+                <input type="text" name="subject" required placeholder="E.g. Incompatible sound frequency or audio glitch" 
+                    class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent-primary">
+            </div>
+            <div>
+                <label class="block text-gray-300 uppercase font-bold text-[10px] mb-1">Detailed Description</label>
+                <textarea name="message" rows="3" required placeholder="Please describe what occurred..." 
+                    class="w-full p-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent-primary"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 rounded-xl btn-primary font-bold text-xs shadow-lg flex items-center justify-center gap-2">
+                <i class="fa-solid fa-paper-plane"></i> Record Ticket in SQL Database
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

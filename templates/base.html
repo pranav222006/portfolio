@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ page_title|default:"VIBE CHECK — Your Mood. Your Music. Your World." }}{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Dynamic Theme CSS Variables */
+        :root {
+            --bg-main: #101014;
+            --bg-surface: #1B1630;
+            --bg-surface-hover: #262042;
+            --accent-primary: #A970FF;
+            --accent-secondary: #56E0E8;
+            --text-main: #F8F7FC;
+            --text-muted: #A7A2B5;
+            --card-border: rgba(169, 112, 255, 0.15);
+            --glow-color: rgba(169, 112, 255, 0.25);
+            --hero-gradient: linear-gradient(135deg, rgba(27, 22, 48, 0.9) 0%, rgba(16, 16, 20, 0.95) 100%);
+        }
+
+        /* Mood Specific Themes */
+        body.theme-happy {
+            --bg-main: #14110A;
+            --bg-surface: #261F10;
+            --bg-surface-hover: #382E18;
+            --accent-primary: #FFB800;
+            --accent-secondary: #FF6B35;
+            --card-border: rgba(255, 184, 0, 0.25);
+            --glow-color: rgba(255, 184, 0, 0.35);
+            --hero-gradient: linear-gradient(135deg, rgba(56, 46, 24, 0.8) 0%, rgba(20, 17, 10, 0.95) 100%);
+        }
+
+        body.theme-stressed {
+            --bg-main: #0B131D;
+            --bg-surface: #142232;
+            --bg-surface-hover: #1D3147;
+            --accent-primary: #8EA8C3;
+            --accent-secondary: #64DFDF;
+            --card-border: rgba(142, 168, 195, 0.2);
+            --glow-color: rgba(100, 223, 223, 0.25);
+            --hero-gradient: linear-gradient(135deg, rgba(20, 34, 50, 0.8) 0%, rgba(11, 19, 29, 0.95) 100%);
+        }
+
+        body.theme-sleepy {
+            --bg-main: #0B0C16;
+            --bg-surface: #141628;
+            --bg-surface-hover: #1E213D;
+            --accent-primary: #7B2CBF;
+            --accent-secondary: #C77DFF;
+            --card-border: rgba(123, 44, 191, 0.25);
+            --glow-color: rgba(199, 125, 255, 0.2);
+            --hero-gradient: linear-gradient(135deg, rgba(30, 33, 61, 0.8) 0%, rgba(11, 12, 22, 0.95) 100%);
+        }
+
+        body.theme-hyped {
+            --bg-main: #170813;
+            --bg-surface: #2B0D23;
+            --bg-surface-hover: #3F1535;
+            --accent-primary: #FF007F;
+            --accent-secondary: #7000FF;
+            --card-border: rgba(255, 0, 127, 0.3);
+            --glow-color: rgba(255, 0, 127, 0.4);
+            --hero-gradient: linear-gradient(135deg, rgba(63, 21, 53, 0.8) 0%, rgba(23, 8, 19, 0.95) 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphic Cards */
+        .vibe-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+        }
+
+        .vibe-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px -10px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .hero-banner {
+            background: var(--hero-gradient);
+            border: 1px solid var(--card-border);
+            transition: background 0.6s ease;
+        }
+
+        /* Ambient Dynamic Background Canvas */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Buttons & Dynamic Styling */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.92;
+            box-shadow: 0 0 20px var(--glow-color);
+            transform: scale(1.02);
+        }
+
+        .text-accent-primary { color: var(--accent-primary); }
+        .text-accent-secondary { color: var(--accent-secondary); }
+        .bg-accent-primary { background-color: var(--accent-primary); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-surface-hover); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+        /* Equalizer Animation */
+        .eq-bar {
+            width: 3px;
+            background-color: var(--accent-primary);
+            animation: bounce 1.2s ease-in-out infinite alternate;
+        }
+        .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+        .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0% { height: 4px; }
+            100% { height: 18px; }
+        }
+
+        /* Chat Widget Specific */
+        .chat-widget-window {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px var(--glow-color);
+        }
+        .chat-bubble-bot {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chat-bubble-user {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            font-weight: 600;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="relative min-h-screen theme-happy flex flex-col justify-between">
+
+    <!-- Ambient Dynamic Particle Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="relative z-20 border-b border-white/10 bg-[#1B1630]/80 backdrop-blur-md sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="{% url 'home' %}" class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#A970FF] to-[#56E0E8] flex items-center justify-center text-black font-extrabold text-lg shadow-md">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+                    VIBE CHECK
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1">
+                <a href="{% url 'home' %}" class="px-3 py-2 rounded-xl text-sm font-bold transition {% if active_page == 'home' %}bg-white/15 text-white{% else %}text-gray-300 hover:text-white hover:bg-white/5{% endif %}">
+                    <i class="fa-solid fa-house mr-1.5 text-accent-primary"></i> Home
+                </a>
+                <a href="{% url 'faqs' %}" class="px-3 py-2 rounded-xl text-sm font-bold transition {% if active_page == 'faqs' %}bg-white/15 text-white{% else %}text-gray-300 hover:text-white hover:bg-white/5{% endif %}">
+                    <i class="fa-solid fa-circle-question mr-1.5 text-accent-secondary"></i> FAQs
+                </a>
+                <a href="{% url 'errors' %}" class="px-3 py-2 rounded-xl text-sm font-bold transition {% if active_page == 'errors' %}bg-white/15 text-white{% else %}text-gray-300 hover:text-white hover:bg-white/5{% endif %}">
+                    <i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-400"></i> Error Codes
+                </a>
+                <a href="{% url 'tickets' %}" class="px-3 py-2 rounded-xl text-sm font-bold transition {% if active_page == 'tickets' %}bg-white/15 text-white{% else %}text-gray-300 hover:text-white hover:bg-white/5{% endif %}">
+                    <i class="fa-solid fa-ticket mr-1.5 text-pink-400"></i> Tickets
+                </a>
+                <a href="{% url 'health' %}" class="px-3 py-2 rounded-xl text-sm font-bold transition {% if active_page == 'health' %}bg-white/15 text-white{% else %}text-gray-300 hover:text-white hover:bg-white/5{% endif %}">
+                    <i class="fa-solid fa-heart-pulse mr-1.5 text-emerald-400"></i> Health
+                </a>
+            </nav>
+
+            <!-- Active Vibe Indicator & Quick Chat Trigger -->
+            <div class="flex items-center gap-3">
+                <div id="navMoodPill" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-xs font-bold text-white">
+                    <span id="navMoodDot" class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                    <span id="navMoodLabel">HAPPY ☀️</span>
+                </div>
+                <button onclick="toggleChatWidget()" class="px-3.5 py-1.5 rounded-xl btn-primary text-xs font-bold flex items-center gap-1.5 shadow-md">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>AI Assistant</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT BLOCK -->
+    <main class="relative z-10 flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="relative z-10 border-t border-white/10 bg-[#101014]/90 py-8 mt-16 text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#A970FF] to-[#56E0E8] flex items-center justify-center text-black font-extrabold text-xs">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <span>&copy; 2026 VIBE CHECK. Final Assessment: Software Development.</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="{% url 'faqs' %}" class="hover:text-white transition">FAQs</a>
+                <a href="{% url 'errors' %}" class="hover:text-white transition">Error Codes</a>
+                <a href="{% url 'tickets' %}" class="hover:text-white transition">Support Tickets</a>
+                <a href="{% url 'health' %}" class="hover:text-white transition">Health Telemetry</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================================= -->
+    <!-- UNIVERSAL AI ASSISTANT CHAT WIDGET (Present on EVERY Page)                 -->
+    <!-- Fulfills requirement: 'A chat widget on every page'                       -->
+    <!-- ========================================================================= -->
+    <div id="chatWidgetContainer" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Chat Modal Box -->
+        <div id="chatWindow" class="hidden w-[92vw] sm:w-[400px] h-[540px] max-h-[85vh] rounded-3xl vibe-card chat-widget-window flex flex-col overflow-hidden mb-4 border border-white/15 backdrop-blur-xl">
+            <!-- Chat Header -->
+            <div class="p-4 bg-gradient-to-r from-[#1B1630] to-[#261F10] border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#A970FF] to-[#56E0E8] flex items-center justify-center text-black font-black text-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-extrabold text-white leading-tight">Vibe AI Assistant</h4>
+                        <div class="flex items-center gap-1.5 text-[11px] text-emerald-400">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>Online • FAQs & Error Specialist</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button onclick="clearChatHistory()" class="text-gray-400 hover:text-white p-1.5 rounded-lg transition" title="Clear chat">
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
+                    </button>
+                    <button onclick="toggleChatWidget()" class="text-gray-400 hover:text-white p-1.5 rounded-lg transition" title="Close chat">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Suggestion Chips -->
+            <div class="px-3 py-2 bg-black/20 border-b border-white/5 flex items-center gap-1.5 overflow-x-auto text-[11px] whitespace-nowrap scrollbar-none">
+                <button onclick="sendQuickPrompt('How does Vibe Check determine my mood?')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 transition">
+                    💡 How it works?
+                </button>
+                <button onclick="sendQuickPrompt('Explain Error 429 Too Many Requests')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 transition">
+                    ⚠️ Error 429
+                </button>
+                <button onclick="sendQuickPrompt('What is custom code 418 Vibe Mismatch?')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 transition">
+                    ⚡ Code 418
+                </button>
+                <button onclick="sendQuickPrompt('Create a support ticket for my issue')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 transition">
+                    🎫 Open Ticket
+                </button>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+                <!-- Initial Welcome Message from Assistant -->
+                <div class="flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-accent-primary flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none max-w-[85%] text-gray-200 leading-relaxed space-y-1.5">
+                        <p>Hey there! I am your <strong>Vibe AI Assistant</strong>.</p>
+                        <p>I can answer questions from our SQL FAQ knowledge base, explain HTTP & custom error codes, or open a support ticket for you if needed.</p>
+                        <p class="text-[10px] text-gray-400">Ask me anything or choose a quick prompt above!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <form id="chatForm" onsubmit="handleChatSubmit(event)" class="p-3 bg-black/40 border-t border-white/10 flex items-center gap-2">
+                <input type="text" id="chatInput" placeholder="Ask about FAQs, error codes, tickets..." 
+                    class="flex-1 px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-400 text-xs focus:outline-none focus:border-accent-primary transition">
+                <button type="submit" id="chatSendBtn" class="w-10 h-10 rounded-xl btn-primary flex items-center justify-center text-black font-bold shrink-0 transition">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Floating Chat Trigger Button -->
+        <button id="chatTriggerBtn" onclick="toggleChatWidget()" class="w-14 h-14 rounded-2xl btn-primary shadow-2xl flex items-center justify-center text-black font-black text-xl hover:scale-105 active:scale-95 transition-all duration-300 relative group">
+            <i class="fa-solid fa-comment-dots text-2xl group-hover:rotate-12 transition"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-black flex items-center justify-center text-[9px] font-extrabold text-black">✓</span>
+        </button>
+    </div>
+
+    <!-- Background Particles & Application Logic Scripts -->
+    <script>
+        /* -------------------------------------------------------------------------- */
+        /* Ambient Interactive Particle Canvas */
+        /* -------------------------------------------------------------------------- */
+        function initCanvas() {
+            const canvas = document.getElementById('bgCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = Array.from({ length: 40 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2.5 + 1,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                alpha: Math.random() * 0.5 + 0.2
+            }));
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                const computedAccent = getComputedStyle(document.body).getPropertyValue('--accent-primary').trim() || '#A970FF';
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = computedAccent;
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* Chat Widget Engine */
+        /* -------------------------------------------------------------------------- */
+        const CHAT_STATE = {
+            sessionId: localStorage.getItem('vibe_chat_session') || ('sess_' + Math.random().toString(36).substring(2, 10)),
+            isOpen: false
+        };
+        localStorage.setItem('vibe_chat_session', CHAT_STATE.sessionId);
+
+        function toggleChatWidget(forceOpen = false) {
+            const windowEl = document.getElementById('chatWindow');
+            const triggerBtn = document.getElementById('chatTriggerBtn');
+            if (forceOpen || !CHAT_STATE.isOpen) {
+                windowEl.classList.remove('hidden');
+                CHAT_STATE.isOpen = true;
+                document.getElementById('chatInput').focus();
+            } else {
+                windowEl.classList.add('hidden');
+                CHAT_STATE.isOpen = false;
+            }
+        }
+
+        function openChatWithPrompt(promptText) {
+            toggleChatWidget(true);
+            const input = document.getElementById('chatInput');
+            input.value = promptText;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        function sendQuickPrompt(promptText) {
+            document.getElementById('chatInput').value = promptText;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            input.value = '';
+            appendMessage('user', message);
+
+            const sendBtn = document.getElementById('chatSendBtn');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin text-xs"></i>';
+
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+
+            try {
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: CHAT_STATE.sessionId,
+                        mood: document.body.className.replace('theme-', '') || 'happy'
+                    })
+                });
+
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+
+                if (data.success) {
+                    appendMessage('bot', data.response, data.source, data.ticket_id);
+                } else {
+                    appendMessage('bot', "I encountered a minor glitch connecting to the service. Please try again.");
+                }
+            } catch (err) {
+                removeTypingIndicator(typingId);
+                appendMessage('bot', "Connection error. Make sure the Django server is running.");
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i>';
+            }
+        }
+
+        function appendMessage(sender, text, source = null, ticketId = null) {
+            const container = document.getElementById('chatMessages');
+            const msgId = 'msg_' + Math.random().toString(36).substring(2, 9);
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const div = document.createElement('div');
+            div.className = sender === 'user' ? 'flex items-start justify-end gap-2.5' : 'flex items-start gap-2.5';
+
+            if (sender === 'user') {
+                div.innerHTML = `
+                    <div class="chat-bubble-user p-3 rounded-2xl rounded-tr-none max-w-[85%] text-black text-xs leading-relaxed">
+                        <p>${escapeHtml(text)}</p>
+                        <span class="block text-[9px] text-black/60 text-right mt-1">${time}</span>
+                    </div>
+                `;
+            } else {
+                let badgeHtml = '';
+                if (source === 'faq') badgeHtml = '<span class="inline-block px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[9px] font-bold mr-1">FAQ</span>';
+                if (source === 'error_code') badgeHtml = '<span class="inline-block px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[9px] font-bold mr-1">Error Code</span>';
+                if (source === 'ticket_created') badgeHtml = '<span class="inline-block px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 text-[9px] font-bold mr-1">Ticket Created</span>';
+
+                div.innerHTML = `
+                    <div class="w-7 h-7 rounded-lg bg-accent-primary flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none max-w-[85%] text-gray-200 text-xs leading-relaxed space-y-2">
+                        <div>${badgeHtml}${formatMarkdown(text)}</div>
+                        <div class="flex items-center justify-between text-[10px] text-gray-400 border-t border-white/5 pt-1.5 mt-2">
+                            <span>${time}</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="sendFeedback('${msgId}', 'positive', this)" class="hover:text-emerald-400 transition" title="Helpful">
+                                    <i class="fa-regular fa-thumbs-up"></i>
+                                </button>
+                                <button onclick="sendFeedback('${msgId}', 'negative', this)" class="hover:text-red-400 transition" title="Not helpful">
+                                    <i class="fa-regular fa-thumbs-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('chatMessages');
+            const id = 'typing_' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'flex items-center gap-2 text-gray-400 text-xs p-2';
+            div.innerHTML = `
+                <div class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-accent-primary text-[10px]">
+                    <i class="fa-solid fa-ellipsis animate-pulse"></i>
+                </div>
+                <span class="italic text-[11px]">Assistant is searching knowledge base...</span>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        async function sendFeedback(msgId, rating, btn) {
+            btn.parentElement.innerHTML = '<span class="text-emerald-400 text-[10px]">Feedback saved ✓</span>';
+            try {
+                await fetch('/api/feedback/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: CHAT_STATE.sessionId,
+                        message_id: msgId,
+                        rating: rating
+                    })
+                });
+            } catch (e) {
+                console.log('Feedback log notice:', e);
+            }
+        }
+
+        function clearChatHistory() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = `
+                <div class="flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-accent-primary flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="chat-bubble-bot p-3 rounded-2xl rounded-tl-none max-w-[85%] text-gray-200 leading-relaxed space-y-1.5">
+                        <p>Chat cleared! How can I assist you with Vibe Check FAQs or error codes today?</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatMarkdown(text) {
+            let res = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/### (.*?)\n/g, '<h5 class="font-bold text-white text-xs mb-1">$1</h5>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+            return res;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+        });
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

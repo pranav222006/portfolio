@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — VIBE CHECK</title>
+  <meta name="description" content="Join VIBE CHECK and start your personalized music journey." />
+  {% load static %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}" />
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+
+    <!-- Left: Branding -->
+    <div class="auth-left auth-left--register">
+      <div class="auth-left-content">
+        <div class="brand-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4"  y="20" width="4" height="12" rx="2" fill="currentColor"/>
+              <rect x="12" y="12" width="4" height="20" rx="2" fill="currentColor"/>
+              <rect x="20" y="6"  width="4" height="26" rx="2" fill="currentColor"/>
+              <rect x="28" y="14" width="4" height="18" rx="2" fill="currentColor"/>
+            </svg>
+          </div>
+          <span class="logo-text">VIBE CHECK</span>
+        </div>
+        <h1 class="auth-tagline">Every mood<br><span class="gradient-text">deserves its own<br>soundtrack.</span></h1>
+        <p class="auth-description">
+          Join thousands discovering music that truly matches how they feel.
+          Your emotional journey starts here.
+        </p>
+        <div class="auth-features">
+          <div class="auth-feature"><span>🎵</span> Mood-matched playlists</div>
+          <div class="auth-feature"><span>🤖</span> AI Vibe Companion</div>
+          <div class="auth-feature"><span>📊</span> Mood history & insights</div>
+          <div class="auth-feature"><span>🎨</span> Dynamic mood themes</div>
+        </div>
+      </div>
+      <div class="auth-wave-bg" aria-hidden="true">
+        <div class="wave-bar" style="--delay:0s;--h:80px"></div>
+        <div class="wave-bar" style="--delay:.15s;--h:50px"></div>
+        <div class="wave-bar" style="--delay:.3s;--h:100px"></div>
+        <div class="wave-bar" style="--delay:.45s;--h:65px"></div>
+        <div class="wave-bar" style="--delay:.6s;--h:120px"></div>
+        <div class="wave-bar" style="--delay:.75s;--h:45px"></div>
+        <div class="wave-bar" style="--delay:.9s;--h:90px"></div>
+        <div class="wave-bar" style="--delay:1.05s;--h:70px"></div>
+        <div class="wave-bar" style="--delay:1.2s;--h:110px"></div>
+        <div class="wave-bar" style="--delay:1.35s;--h:55px"></div>
+      </div>
+    </div>
+
+    <!-- Right: Register form -->
+    <div class="auth-right">
+      <div class="auth-form-card">
+        <h2 class="auth-form-title">Create your account</h2>
+        <p class="auth-form-subtitle">Start your personalized music journey</p>
+
+        {% if error %}
+          <div class="alert alert--error" role="alert" id="register-error">
+            <span class="alert-icon">⚠️</span> {{ error }}
+          </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}" id="register-form" novalidate>
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label class="form-label" for="id_username">Username</label>
+            {{ form.username }}
+            <span class="form-field-error" id="username-error">
+              {% if form.username.errors %}{{ form.username.errors.0 }}{% endif %}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="id_email">Email address</label>
+            {{ form.email }}
+            <span class="form-field-error" id="email-error">
+              {% if form.email.errors %}{{ form.email.errors.0 }}{% endif %}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="id_password1">Password</label>
+            <div class="input-wrapper">
+              {{ form.password1 }}
+              <button type="button" class="toggle-password" aria-label="Toggle password visibility" data-target="id_password1">
+                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="id_password2">Confirm password</label>
+            <div class="input-wrapper">
+              {{ form.password2 }}
+              <button type="button" class="toggle-password" aria-label="Toggle password visibility" data-target="id_password2">
+                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full" id="register-btn">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-loader hidden">⏳</span>
+          </button>
+        </form>
+
+        <div class="auth-divider"><span>Already have an account?</span></div>
+        <a href="{% url 'login' %}" class="btn btn--ghost btn--full">Sign in instead</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{% static 'myapp/js/app.js' %}"></script>
+</body>
+</html>

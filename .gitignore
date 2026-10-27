@@ -1,0 +1,46 @@
+# Python & Django
+*.py[cod]
+*$py.class
+__pycache__/
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database & SQLite
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Logs
+logs/
+*.log
+
+# Static & Media uploads in production
+static_collected/
+media/
+
+# Scratch / Helper scripts
+powershell.cmd
+node_modules/
+.next/
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE & Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

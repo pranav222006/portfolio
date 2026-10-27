@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-mood="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — VIBE CHECK</title>
+  <meta name="description" content="Your mood-matched music dashboard." />
+  <meta name="csrf-token" content="{{ csrf_token }}" />
+  {% load static %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}" />
+</head>
+<body class="dashboard-page{% if current_mood %} mood-{{ current_mood }}{% endif %}">
+
+<!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4"  y="20" width="4" height="12" rx="2" fill="currentColor"/>
+        <rect x="12" y="12" width="4" height="20" rx="2" fill="currentColor"/>
+        <rect x="20" y="6"  width="4" height="26" rx="2" fill="currentColor"/>
+        <rect x="28" y="14" width="4" height="18" rx="2" fill="currentColor"/>
+      </svg>
+    </div>
+    <span class="logo-text">VIBE CHECK</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="{% url 'dashboard' %}" class="nav-item nav-item--active" aria-current="page">
+      <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
+    </a>
+    <a href="#discover" class="nav-item">
+      <span class="nav-icon">🔍</span><span class="nav-label">Discover</span>
+    </a>
+    <a href="{% url 'history' %}" class="nav-item">
+      <span class="nav-icon">📊</span><span class="nav-label">Mood History</span>
+    </a>
+    <a href="#profile" class="nav-item">
+      <span class="nav-icon">👤</span><span class="nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">{{ user.username|slice:":1"|upper }}</div>
+      <div class="sidebar-user-info">
+        <span class="sidebar-username">{{ user.username }}</span>
+        <span class="sidebar-user-email">{{ user.email|truncatechars:22 }}</span>
+      </div>
+    </div>
+    <a href="{% url 'logout' %}" class="btn btn--logout">Logout</a>
+  </div>
+</aside>
+
+<!-- ── Mobile top nav ────────────────────────────────────────────────────── -->
+<header class="mobile-header" role="banner">
+  <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="brand-logo brand-logo--small">
+    <div class="logo-icon"><svg viewBox="0 0 40 40" fill="none"><rect x="4" y="20" width="4" height="12" rx="2" fill="currentColor"/><rect x="12" y="12" width="4" height="20" rx="2" fill="currentColor"/><rect x="20" y="6" width="4" height="26" rx="2" fill="currentColor"/><rect x="28" y="14" width="4" height="18" rx="2" fill="currentColor"/></svg></div>
+    <span class="logo-text">VIBE CHECK</span>
+  </div>
+  <a href="{% url 'logout' %}" class="btn btn--logout btn--sm">Logout</a>
+</header>
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+<!-- ── Main content ──────────────────────────────────────────────────────── -->
+<main class="main-content" id="main-content">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-greeting">
+      <span id="greeting-text">{{ greeting }}, <strong>{{ user.username }}</strong> 👋</span>
+    </div>
+    <div class="topbar-right">
+      {% if current_mood %}
+        <div class="current-mood-badge" id="current-mood-badge">
+          <span id="current-mood-emoji"></span>
+          <span id="current-mood-name">{{ current_mood|capfirst }}</span>
+        </div>
+      {% else %}
+        <div class="current-mood-badge hidden" id="current-mood-badge">
+          <span id="current-mood-emoji"></span>
+          <span id="current-mood-name"></span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section class="hero" id="hero-section">
+    <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-title" id="hero-title">How are we feeling today?</h1>
+      <p class="hero-subtitle" id="hero-subtitle">Pick your vibe. Let the world match your energy.</p>
+      <div class="hero-quote hidden" id="hero-quote-box">
+        <blockquote id="hero-quote"></blockquote>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn--secondary" id="surprise-btn">🎲 Surprise Me</button>
+        {% if current_mood %}
+          <button class="btn btn--ghost" id="change-mood-btn">🔄 Change My Mood</button>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Mood Cards ─────────────────────────────────────────────────────── -->
+  <section class="section mood-section" id="mood-section">
+    <div class="section-header">
+      <h2 class="section-title">Choose Your Vibe</h2>
+      <p class="section-subtitle">Your selection will transform the entire experience</p>
+    </div>
+
+    <div class="mood-grid" id="mood-grid">
+
+      <!-- HAPPY -->
+      <button class="mood-card mood-card--happy" data-mood="happy" aria-label="Select Happy mood">
+        <div class="mood-card-bg" aria-hidden="true"></div>
+        <div class="mood-card-particles" aria-hidden="true"></div>
+        <div class="mood-card-content">
+          <div class="mood-emoji">☀️</div>
+          <h3 class="mood-name">HAPPY</h3>
+          <p class="mood-tagline">Sunshine & good vibes</p>
+          <div class="mood-genres">Pop · Indie · Dance</div>
+        </div>
+        <div class="mood-card-selected-indicator" aria-hidden="true">✓ Selected</div>
+      </button>
+
+      <!-- STRESSED -->
+      <button class="mood-card mood-card--stressed" data-mood="stressed" aria-label="Select Stressed mood">
+        <div class="mood-card-bg" aria-hidden="true"></div>
+        <div class="mood-card-particles" aria-hidden="true"></div>
+        <div class="mood-card-content">
+          <div class="mood-emoji">🌧️</div>
+          <h3 class="mood-name">STRESSED</h3>
+          <p class="mood-tagline">Find your calm</p>
+          <div class="mood-genres">Lo-Fi · Ambient · Piano</div>
+        </div>
+        <div class="mood-card-selected-indicator" aria-hidden="true">✓ Selected</div>
+      </button>
+
+      <!-- SLEEPY -->
+      <button class="mood-card mood-card--sleepy" data-mood="sleepy" aria-label="Select Sleepy mood">
+        <div class="mood-card-bg" aria-hidden="true"></div>
+        <div class="mood-card-particles" aria-hidden="true"></div>
+        <div class="mood-card-content">
+          <div class="mood-emoji">🌙</div>
+          <h3 class="mood-name">SLEEPY</h3>
+          <p class="mood-tagline">Rest & recharge</p>
+          <div class="mood-genres">Ambient · Acoustic · Sleep</div>
+        </div>
+        <div class="mood-card-selected-indicator" aria-hidden="true">✓ Selected</div>
+      </button>
+
+      <!-- HYPED -->
+      <button class="mood-card mood-card--hyped" data-mood="hyped" aria-label="Select Hyped mood">
+        <div class="mood-card-bg" aria-hidden="true"></div>
+        <div class="mood-card-particles" aria-hidden="true"></div>
+        <div class="mood-card-content">
+          <div class="mood-emoji">⚡</div>
+          <h3 class="mood-name">HYPED</h3>
+          <p class="mood-tagline">Unleash your energy</p>
+          <div class="mood-genres">Hip-Hop · EDM · Dance</div>
+        </div>
+        <div class="mood-card-selected-indicator" aria-hidden="true">✓ Selected</div>
+      </button>
+
+    </div>
+
+    <!-- Save feedback toast -->
+    <div class="mood-toast hidden" id="mood-toast" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- ── Activities ─────────────────────────────────────────────────────── -->
+  <section class="section activities-section hidden" id="activities-section">
+    <div class="section-header">
+      <h2 class="section-title">✨ Activities for Your Vibe</h2>
+    </div>
+    <div class="activities-grid" id="activities-grid">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- ── Music Section ──────────────────────────────────────────────────── -->
+  <section class="section music-section" id="discover">
+    <div class="section-header">
+      <h2 class="section-title" id="music-section-title">🎵 Your Soundtrack</h2>
+      <p class="section-subtitle" id="music-section-subtitle">Curated playlists powered by Spotify</p>
+    </div>
+
+    <div class="music-loading hidden" id="music-loading">
+      <div class="spinner"></div>
+      <p>Loading your soundtrack…</p>
+    </div>
+
+    <div class="music-grid" id="music-grid">
+      {% for p in playlists %}
+      <article class="music-card" data-playlist-id="{{ p.id }}" data-spotify-url="{{ p.spotify_url }}" data-embed-url="{{ p.embed_url }}">
+        <div class="music-card-art">
+          <img
+            src="{{ p.artwork }}"
+            alt="{{ p.title }} artwork"
+            loading="lazy"
+            onerror="this.src='https://via.placeholder.com/300x300/1B1630/A970FF?text=🎵'"
+          />
+          <div class="music-card-overlay">
+            <button class="play-btn" aria-label="Open {{ p.title }} in embed player">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="music-card-info">
+          <div class="music-card-genre">{{ p.genre }}</div>
+          <h3 class="music-card-title">{{ p.title }}</h3>
+          <p class="music-card-desc">{{ p.description }}</p>
+          <div class="music-card-actions">
+            <a href="{{ p.spotify_url }}" target="_blank" rel="noopener noreferrer" class="btn btn--spotify btn--sm">
+              <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              Open in Spotify
+            </a>
+            <button class="btn btn--icon btn--sm save-track-btn" aria-label="Save playlist" data-title="{{ p.title }}" data-artist="{{ p.artist }}" data-mood="{{ p.mood }}" data-spotify="{{ p.spotify_url }}" data-embed="{{ p.embed_url }}" data-art="{{ p.artwork }}">
+              🔖
+            </button>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <!-- Embed player modal -->
+    <div class="embed-modal hidden" id="embed-modal" role="dialog" aria-modal="true" aria-label="Spotify Player">
+      <div class="embed-modal-inner">
+        <div class="embed-modal-header">
+          <h3 id="embed-modal-title">Now Playing</h3>
+          <button class="embed-close-btn" id="embed-close-btn" aria-label="Close player">✕</button>
+        </div>
+        <div class="embed-container">
+          <iframe id="spotify-embed" src="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify playlist player"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Vibe AI ─────────────────────────────────────────────────────────── -->
+  <section class="section ai-section" id="ai-section">
+    <div class="section-header">
+      <h2 class="section-title">🤖 Vibe AI</h2>
+      <p class="section-subtitle">Tell me how you're feeling and I'll find your perfect soundtrack</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-input-area">
+        <textarea
+          id="ai-message-input"
+          class="ai-textarea"
+          placeholder="e.g. 'I'm exhausted after a long day and need something relaxing…'"
+          maxlength="500"
+          rows="3"
+          aria-label="Describe your mood or situation"
+        ></textarea>
+        <div class="ai-input-footer">
+          <span class="char-counter" id="ai-char-counter">0 / 500</span>
+          <button class="btn btn--primary" id="ai-generate-btn">
+            <span class="btn-text">✨ Generate My Vibe</span>
+            <span class="btn-loader hidden">
+              <span class="spinner spinner--sm"></span> Thinking…
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="ai-response hidden" id="ai-response">
+        <div class="ai-response-header">
+          <div class="ai-avatar">🤖</div>
+          <div class="ai-source-badge" id="ai-source-badge">AI-Powered</div>
+        </div>
+        <p class="ai-response-text" id="ai-response-text"></p>
+        <div class="ai-details">
+          <div class="ai-detail-block">
+            <h4>🎵 Suggested Genres</h4>
+            <div class="ai-genres" id="ai-genres"></div>
+          </div>
+          <div class="ai-detail-block">
+            <h4>✨ Activities</h4>
+            <ul class="ai-activities" id="ai-activities"></ul>
+          </div>
+          <div class="ai-detail-block">
+            <h4>💬 Quote</h4>
+            <blockquote class="ai-quote" id="ai-quote"></blockquote>
+          </div>
+          <div class="ai-detail-block">
+            <h4>🔍 Why these recommendations?</h4>
+            <p class="ai-explanation" id="ai-explanation"></p>
+          </div>
+        </div>
+        <div class="ai-response-actions">
+          <button class="btn btn--secondary btn--sm" id="ai-apply-mood-btn">Apply Suggested Mood</button>
+          <button class="btn btn--ghost btn--sm" id="ai-clear-btn">Clear</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Hidden data for JS -->
+<script>
+  window.VIBE_DATA = {
+    currentMood: "{{ current_mood|escapejs }}",
+    username: "{{ user.username|escapejs }}",
+    csrfToken: "{{ csrf_token }}",
+  };
+</script>
+<script src="{% static 'myapp/js/app.js' %}"></script>
+</body>
+</html>

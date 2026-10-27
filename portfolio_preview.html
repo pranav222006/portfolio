@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pranav S — Mechatronics Engineering Portfolio | PLC, CAD & Robotics</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: {
+              DEFAULT: '#38BDF8',
+              hover: '#0284C7',
+              glow: 'rgba(56, 189, 248, 0.15)',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          backgroundImage: {
+            'grid-pattern': "linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)",
+            'radial-gradient': "radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 60%)",
+          },
+          backgroundSize: {
+            'grid-pattern': '32px 32px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #030712;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 selection:bg-sky-500/30 selection:text-sky-300">
+
+  <!-- 1. STICKY NAV -->
+  <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+      <a href="#" class="group flex items-center gap-2.5 text-base font-semibold text-slate-100 transition-colors hover:text-sky-400">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 transition-all">
+          <i data-lucide="cpu" class="h-4 w-4"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="leading-tight font-bold">Pranav S</span>
+          <span class="font-mono text-[10px] tracking-wider text-slate-400 font-normal">MECHATRONICS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden items-center gap-1 md:flex">
+        <a href="#about" class="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-all rounded-md">About</a>
+        <a href="#skills" class="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-all rounded-md">Skills</a>
+        <a href="#experience" class="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-all rounded-md">Experience</a>
+        <a href="#projects" class="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-all rounded-md">Projects</a>
+        <a href="#contact" class="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-all rounded-md">Contact</a>
+        <div class="ml-2 pl-2 border-l border-slate-800">
+          <a href="resume.pdf" download="Pranav_S_Resume.pdf" class="inline-flex items-center justify-center rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/30 hover:bg-sky-500/20 hover:border-sky-400 font-medium h-8 px-3 text-xs">Resume PDF</a>
+        </div>
+      </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="flex md:hidden">
+        <button id="menu-btn" class="p-2 text-slate-400 hover:text-white rounded-md">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Sheet -->
+  <div id="mobile-menu" class="fixed inset-0 z-50 hidden">
+    <div id="menu-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="relative z-50 ml-auto h-full w-3/4 max-w-sm border-l border-slate-800 bg-slate-950 p-6 shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+        <div class="text-sm font-mono text-sky-400 font-semibold tracking-wider">[MENU]</div>
+        <button id="menu-close" class="p-1.5 text-slate-400 hover:text-white"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+      <div class="flex flex-col gap-4">
+        <a href="#about" class="mobile-link text-base font-medium text-slate-200 hover:text-sky-400 py-2 border-b border-slate-900">About</a>
+        <a href="#skills" class="mobile-link text-base font-medium text-slate-200 hover:text-sky-400 py-2 border-b border-slate-900">Skills</a>
+        <a href="#experience" class="mobile-link text-base font-medium text-slate-200 hover:text-sky-400 py-2 border-b border-slate-900">Experience</a>
+        <a href="#projects" class="mobile-link text-base font-medium text-slate-200 hover:text-sky-400 py-2 border-b border-slate-900">Projects</a>
+        <a href="#contact" class="mobile-link text-base font-medium text-slate-200 hover:text-sky-400 py-2 border-b border-slate-900">Contact</a>
+        <a href="resume.pdf" download="Pranav_S_Resume.pdf" class="mt-4 text-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-sky-400 transition-colors">Download Resume PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- 2. HERO SECTION -->
+    <section class="relative overflow-hidden py-20 md:py-28 lg:py-32 border-b border-slate-800/80 bg-radial-gradient">
+      <div class="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none"></div>
+      <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="flex flex-col items-start gap-6 max-w-3xl">
+          <div class="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1 text-xs font-mono text-sky-400">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+            </span>
+            <span>AUTOMATION & ROBOTICS SPECIALIZATION</span>
+          </div>
+
+          <div class="space-y-3">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-100 sm:text-5xl lg:text-6xl">Pranav S</h1>
+            <p class="text-xl font-medium leading-relaxed text-sky-400 sm:text-2xl">Mechatronics Engineering Student — PLC Programming, Mechanical Design & Robotics</p>
+          </div>
+
+          <div class="flex items-center gap-2 text-sm text-slate-400 font-mono">
+            <i data-lucide="map-pin" class="h-4 w-4 text-sky-400"></i>
+            <span>Based in Vellore, Tamil Nadu, India</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#projects" class="inline-flex items-center justify-center rounded-md bg-sky-500 px-6 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-sky-500/20 hover:bg-sky-400 transition-all gap-2 group">
+              <span>View Projects</span>
+              <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+            </a>
+            <a href="resume.pdf" download="Pranav_S_Resume.pdf" class="inline-flex items-center justify-center rounded-md border border-slate-800 bg-slate-900/60 px-6 py-3 text-base font-medium text-slate-200 hover:bg-slate-800 hover:border-slate-700 transition-all gap-2">
+              <i data-lucide="download" class="h-4 w-4 text-sky-400"></i>
+              <span>Download Resume</span>
+            </a>
+          </div>
+
+          <div class="mt-8 grid grid-cols-3 gap-4 w-full pt-8 border-t border-slate-800/80">
+            <div class="flex flex-col space-y-1">
+              <span class="font-mono text-2xl sm:text-3xl font-bold text-slate-100">208+</span>
+              <span class="text-xs text-slate-400 font-mono uppercase tracking-wider">Internship Hours</span>
+            </div>
+            <div class="flex flex-col space-y-1">
+              <span class="font-mono text-2xl sm:text-3xl font-bold text-slate-100">4 Tools</span>
+              <span class="text-xs text-slate-400 font-mono uppercase tracking-wider">CAD Suite Proficiency</span>
+            </div>
+            <div class="flex flex-col space-y-1">
+              <span class="font-mono text-2xl sm:text-3xl font-bold text-slate-100">Robocon '25</span>
+              <span class="text-xs text-slate-400 font-mono uppercase tracking-wider">Robotics Competitions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ABOUT SECTION -->
+    <section id="about" class="py-20 border-b border-slate-800/80 bg-slate-950">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="space-y-12">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold tracking-wider">
+              <span>// 01</span>
+              <span>ENGINEERING PROFILE</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">About Me</h2>
+          </div>
+
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            <div class="lg:col-span-7 space-y-6">
+              <p class="text-base leading-relaxed text-slate-300 sm:text-lg">
+                Mechatronics engineering student with hands-on experience in PLC programming, electrical panel building, and mechanical design across AutoCAD, Fusion 360, SolidWorks, and Autodesk Inventor. Practical robotics exposure through Robocon 2025 and an independently built Automated Guided Vehicle (AGV). Combines strong design and fabrication skills with a structured, detail-oriented approach to engineering problems.
+              </p>
+
+              <div class="space-y-3 pt-4">
+                <h3 class="text-sm font-mono text-slate-400 font-semibold uppercase tracking-wider">Technical Core Focus Areas</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="flex items-start gap-2.5 rounded-lg border border-slate-800/80 bg-slate-900/40 p-3">
+                    <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-0.5 shrink-0"></i>
+                    <span class="text-xs font-medium text-slate-200">Industrial Control & PLC Ladder Logic Programming</span>
+                  </div>
+                  <div class="flex items-start gap-2.5 rounded-lg border border-slate-800/80 bg-slate-900/40 p-3">
+                    <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-0.5 shrink-0"></i>
+                    <span class="text-xs font-medium text-slate-200">Multi-CAD Mechanical Modeling & 3D Prototyping</span>
+                  </div>
+                  <div class="flex items-start gap-2.5 rounded-lg border border-slate-800/80 bg-slate-900/40 p-3">
+                    <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-0.5 shrink-0"></i>
+                    <span class="text-xs font-medium text-slate-200">Electrical Control Panel Hardware Wiring & Schematics</span>
+                  </div>
+                  <div class="flex items-start gap-2.5 rounded-lg border border-slate-800/80 bg-slate-900/40 p-3">
+                    <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-0.5 shrink-0"></i>
+                    <span class="text-xs font-medium text-slate-200">Autonomous Robot Kinematics & AGV Systems Integration</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education Card -->
+            <div class="lg:col-span-5">
+              <div class="rounded-xl border border-sky-500/20 bg-slate-900/60 p-6 relative overflow-hidden backdrop-blur-md">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                  <i data-lucide="graduation-cap" class="h-24 w-24 text-sky-400"></i>
+                </div>
+                <div class="space-y-1 pb-4">
+                  <div class="flex items-center gap-2 text-xs font-mono text-sky-400">
+                    <i data-lucide="book-open" class="h-4 w-4"></i>
+                    <span>ACADEMIC BACKGROUND</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-slate-100">Bachelor of Engineering (B.E.)</h3>
+                  <p class="text-sm font-medium text-sky-400">Mechatronics Engineering</p>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="space-y-1">
+                    <p class="text-base font-semibold text-slate-200">Kumaraguru College of Technology</p>
+                    <p class="text-xs text-slate-400 font-mono">Coimbatore, Tamil Nadu</p>
+                  </div>
+
+                  <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                    <span class="inline-flex items-center rounded-md border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-xs font-mono text-sky-400">Expected 2028</span>
+                    <span class="inline-flex items-center rounded-md border border-slate-800 bg-slate-900 px-2.5 py-0.5 text-xs font-mono text-slate-400">Undergraduate</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SKILLS SECTION -->
+    <section id="skills" class="py-20 border-b border-slate-800/80 bg-slate-950/60">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="space-y-12">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold tracking-wider">
+              <span>// 02</span>
+              <span>TECHNICAL CAPABILITIES</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">Skills & Tooling</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- CAD & Mechanical -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6 hover:border-sky-500/40 transition-colors group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 transition-all">
+                  <i data-lucide="compass" class="h-5 w-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">CAD & Mechanical Design</h3>
+                  <p class="text-xs text-slate-400">Comprehensive 3D parametric modeling, drafting, and assembly analysis.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">AutoCAD</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Fusion 360</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">SolidWorks</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Autodesk Inventor</span>
+              </div>
+            </div>
+
+            <!-- Automation / PLC -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6 hover:border-sky-500/40 transition-colors group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 transition-all">
+                  <i data-lucide="cpu" class="h-5 w-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">Automation / PLC</h3>
+                  <p class="text-xs text-slate-400">Industrial automation software logic, sequence control, and safety circuits.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Delta WPLSoft</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Ladder Logic</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Timers & Counters</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">SET / RST Latch Functions</span>
+              </div>
+            </div>
+
+            <!-- Electrical Systems -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6 hover:border-sky-500/40 transition-colors group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 transition-all">
+                  <i data-lucide="zap" class="h-5 w-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">Electrical Systems</h3>
+                  <p class="text-xs text-slate-400">Hardware integration, wiring schematics, relay logic, and panel construction.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Electrical Panel Building</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Hardware Systems Integration</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Control Circuit Wiring</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Power & Signal Distribution</span>
+              </div>
+            </div>
+
+            <!-- Fabrication -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6 hover:border-sky-500/40 transition-colors group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 transition-all">
+                  <i data-lucide="hammer" class="h-5 w-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">Fabrication & Prototyping</h3>
+                  <p class="text-xs text-slate-400">Hands-on machine fabrication, physical prototyping, and chassis assembly.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Hands-on Fabrication</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Rapid Prototyping</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Mechanical Assembly</span>
+                <span class="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono text-sky-400">Materials & Tolerances</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. EXPERIENCE SECTION -->
+    <section id="experience" class="py-20 border-b border-slate-800/80 bg-slate-950">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="space-y-12">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold tracking-wider">
+              <span>// 03</span>
+              <span>PRACTICAL INDUSTRY EXPERIENCE</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">Work Experience</h2>
+          </div>
+
+          <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 hover:border-sky-500/30 transition-all">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <i data-lucide="briefcase" class="h-4 w-4 text-sky-400"></i>
+                  <h3 class="text-xl font-bold text-slate-100">PLC Programming & Design Intern</h3>
+                </div>
+                <p class="text-base font-medium text-sky-400 mt-1">Suntech Energreen Private Limited</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-md border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-xs font-mono text-sky-400"><i data-lucide="clock" class="h-3 w-3"></i> 208 Hours</span>
+                <span class="inline-flex items-center gap-1 rounded-md border border-slate-800 bg-slate-900 px-2.5 py-0.5 text-xs font-mono text-slate-400"><i data-lucide="calendar" class="h-3 w-3"></i> June 2026</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs text-slate-400 font-mono mb-6">
+              <i data-lucide="map-pin" class="h-3.5 w-3.5 text-sky-400"></i>
+              <span>Arni, Tamil Nadu</span>
+            </div>
+
+            <div class="space-y-3 border-t border-slate-800/80 pt-4">
+              <div class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-1 shrink-0"></i>
+                <span class="text-sm text-slate-300 leading-relaxed">Completed a structured 208-hour internship spanning PLC programming, electrical panel building, and 3D mechanical design.</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-1 shrink-0"></i>
+                <span class="text-sm text-slate-300 leading-relaxed">Developed and tested ladder logic programs using Delta WPLSoft under the guidance of the Engineering Technical Manager.</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-1 shrink-0"></i>
+                <span class="text-sm text-slate-300 leading-relaxed">Assisted in electrical panel building and control circuit wiring for industrial automation systems.</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-sky-400 mt-1 shrink-0"></i>
+                <span class="text-sm text-slate-300 leading-relaxed">Applied CAD software tools to 3D mechanical design, chassis components, and assembly modeling tasks.</span>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800/80 mt-6">
+              <span class="text-xs font-mono text-slate-400 block mb-2 font-semibold">ENGINEERING TOOLING & METHODOLOGIES:</span>
+              <div class="flex flex-wrap gap-2">
+                <span class="rounded-md border border-slate-700 px-2.5 py-0.5 text-xs font-mono text-slate-300">Delta WPLSoft</span>
+                <span class="rounded-md border border-slate-700 px-2.5 py-0.5 text-xs font-mono text-slate-300">Ladder Logic</span>
+                <span class="rounded-md border border-slate-700 px-2.5 py-0.5 text-xs font-mono text-slate-300">Panel Wiring</span>
+                <span class="rounded-md border border-slate-700 px-2.5 py-0.5 text-xs font-mono text-slate-300">AutoCAD</span>
+                <span class="rounded-md border border-slate-700 px-2.5 py-0.5 text-xs font-mono text-slate-300">3D CAD Modeling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PROJECTS SECTION -->
+    <section id="projects" class="py-20 border-b border-slate-800/80 bg-slate-950/60">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="space-y-12">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold tracking-wider">
+              <span>// 04</span>
+              <span>TECHNICAL CASE STUDIES & BUILDS</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">Featured Engineering Projects</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Robocon 2025 -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 hover:border-sky-500/40 hover:shadow-2xl hover:shadow-sky-500/5 transition-all duration-300 flex flex-col justify-between group">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center rounded-md border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-xs font-mono text-sky-400">Team Project</span>
+                  <span class="font-mono text-[11px] text-slate-400 flex items-center gap-1">
+                    <i data-lucide="tag" class="h-3 w-3 text-sky-400"></i>
+                    Subsystem: Chassis & Drive | Role: Mechanical Lead
+                  </span>
+                </div>
+
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-slate-100 group-hover:text-sky-400 transition-colors">Robocon 2025 Robot</h3>
+                    <i data-lucide="arrow-up-right" class="h-5 w-5 text-slate-500 group-hover:text-sky-400 transition-colors"></i>
+                  </div>
+                  <p class="text-xs font-mono text-slate-400">National-Level Robotics Competition</p>
+                </div>
+
+                <p class="text-sm text-slate-300 leading-relaxed pt-1">
+                  Part of a competitive engineering team that designed and fabricated a custom competition robot engineered for high-precision autonomous and manual challenge tasks.
+                </p>
+
+                <div class="space-y-2 pt-3 border-t border-slate-800/80">
+                  <span class="text-xs font-mono text-slate-400 font-semibold flex items-center gap-1.5"><i data-lucide="wrench" class="h-3.5 w-3.5 text-sky-400"></i> KEY TECHNICAL CONTRIBUTIONS:</span>
+                  <ul class="space-y-1.5 pl-4 list-disc text-xs text-slate-300">
+                    <li>Co-designed structural chassis geometry in CAD to optimize weight distribution and structural rigidity.</li>
+                    <li>Fabricated custom mounting brackets and actuator drive linkages under strict competition dimensional constraints.</li>
+                    <li>Integrated sensor mounts and wire routing channels to ensure high operational reliability on the field.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-slate-800/80 mt-4 flex flex-wrap gap-1.5">
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Fusion 360</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">SolidWorks</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Prototyping</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Actuators & Sensors</span>
+              </div>
+            </div>
+
+            <!-- AGV -->
+            <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-6 hover:border-sky-500/40 hover:shadow-2xl hover:shadow-sky-500/5 transition-all duration-300 flex flex-col justify-between group">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center rounded-md border border-slate-700 text-slate-300 px-2.5 py-0.5 text-xs font-mono">Independent Project</span>
+                  <span class="font-mono text-[11px] text-slate-400 flex items-center gap-1">
+                    <i data-lucide="tag" class="h-3 w-3 text-sky-400"></i>
+                    Sensors: IR & Ultrasonic | Nav: Autonomous
+                  </span>
+                </div>
+
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-slate-100 group-hover:text-sky-400 transition-colors">AGV — Automated Guided Vehicle</h3>
+                    <i data-lucide="arrow-up-right" class="h-5 w-5 text-slate-500 group-hover:text-sky-400 transition-colors"></i>
+                  </div>
+                  <p class="text-xs font-mono text-slate-400">Independent Robotics & Automation Build</p>
+                </div>
+
+                <p class="text-sm text-slate-300 leading-relaxed pt-1">
+                  Independently designed, engineered, and constructed an Automated Guided Vehicle (AGV) incorporating custom mechanical chassis layout, sensors, and automation logic.
+                </p>
+
+                <div class="space-y-2 pt-3 border-t border-slate-800/80">
+                  <span class="text-xs font-mono text-slate-400 font-semibold flex items-center gap-1.5"><i data-lucide="wrench" class="h-3.5 w-3.5 text-sky-400"></i> KEY TECHNICAL CONTRIBUTIONS:</span>
+                  <ul class="space-y-1.5 pl-4 list-disc text-xs text-slate-300">
+                    <li>Engineered custom chassis drive kinematics and wheel mounts in SolidWorks / Fusion 360.</li>
+                    <li>Wired motor controllers, power distribution boards, and optical/ultrasonic guidance sensors.</li>
+                    <li>Implemented autonomous navigation logic and obstacle detection algorithms for reliable line and path following.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-slate-800/80 mt-4 flex flex-wrap gap-1.5">
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">AutoCAD</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Fusion 360</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Automation Sensors</span>
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[11px] font-mono text-slate-400">Motor Controllers</span>
+              </div>
+            </div>
+
+            <!-- Future Project Slot -->
+            <div class="rounded-xl border border-dashed border-slate-800 bg-slate-900/20 p-8 flex flex-col justify-center items-center text-center min-h-[320px] group hover:border-sky-500/40 transition-colors">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full border border-slate-800 bg-slate-900 text-slate-500 group-hover:text-sky-400 group-hover:border-sky-500/30 transition-all mb-4">
+                <i data-lucide="plus" class="h-6 w-6"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-slate-400 group-hover:text-slate-200 transition-colors mb-2">Upcoming Project Slot</h3>
+              <p class="text-xs text-slate-400 max-w-xs mb-4">Reserved slot ready for future mechatronics, industrial automation, or robotics projects as new designs develop.</p>
+              <span class="rounded-md border border-slate-800 bg-slate-900 px-2.5 py-0.5 text-[11px] font-mono text-slate-500">+ Add Project Slot Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CONTACT SECTION -->
+    <section id="contact" class="py-20 border-b border-slate-800/80 bg-slate-950">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="space-y-12">
+          <div class="space-y-2 text-center max-w-2xl mx-auto">
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold tracking-wider">
+              <span>// 05</span>
+              <span>GET IN TOUCH</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">Get In Touch</h2>
+            <p class="text-sm text-slate-400 leading-relaxed">I am actively looking for internship, co-op, and full-time opportunities in automation engineering, PLC programming, robotics, and mechanical design.</p>
+          </div>
+
+          <div class="max-w-3xl mx-auto">
+            <div class="rounded-xl border border-sky-500/20 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-md">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                <div class="flex items-start justify-between p-4 rounded-lg border border-slate-800 bg-slate-950/60">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                      <i data-lucide="phone" class="h-3.5 w-3.5 text-sky-400"></i>
+                      <span>PHONE</span>
+                    </div>
+                    <p class="text-base font-semibold text-slate-100 font-mono">+91 79045 86593</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start justify-between p-4 rounded-lg border border-slate-800 bg-slate-950/60">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                      <i data-lucide="mail" class="h-3.5 w-3.5 text-sky-400"></i>
+                      <span>EMAIL</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-100 font-mono truncate">pranav.[email]@example.com</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-800 mb-6">
+                <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+                  <i data-lucide="map-pin" class="h-4 w-4 text-sky-400"></i>
+                  <span>Vellore / Coimbatore, Tamil Nadu, India</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <a href="#" target="_blank" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:text-sky-400 hover:border-sky-500/40 transition-colors"><i data-lucide="linkedin" class="h-4 w-4"></i></a>
+                  <a href="#" target="_blank" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:text-sky-400 hover:border-sky-500/40 transition-colors"><i data-lucide="github" class="h-4 w-4"></i></a>
+                </div>
+              </div>
+
+              <a href="resume.pdf" download="Pranav_S_Resume.pdf" class="w-full flex items-center justify-center gap-2 rounded-lg bg-sky-500 px-6 py-3.5 text-base font-semibold text-slate-950 hover:bg-sky-400 transition-colors">
+                <i data-lucide="download" class="h-4 w-4"></i>
+                <span>Download Official Resume PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8. FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-8 text-xs text-slate-400">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
+      <div class="flex items-center gap-2 font-mono">
+        <i data-lucide="cpu" class="h-4 w-4 text-sky-400"></i>
+        <span>Pranav S © 2026</span>
+        <span>|</span>
+        <span>Mechatronics Engineering Portfolio</span>
+      </div>
+
+      <div class="font-mono text-slate-400 text-center sm:text-right">
+        Built with <span class="text-sky-400 font-semibold">Next.js 15</span>, <span class="text-sky-400 font-semibold">React 19</span> &amp; <span class="text-sky-400 font-semibold">Tailwind CSS</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const menuClose = document.getElementById('menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+    if (menuClose) menuClose.addEventListener('click', toggleMenu);
+    if (menuBackdrop) menuBackdrop.addEventListener('click', toggleMenu);
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

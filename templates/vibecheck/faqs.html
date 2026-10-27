@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Frequently Asked Questions (FAQ) — VIBE CHECK{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+    <!-- Header & Search Banner -->
+    <div class="text-center space-y-4 max-w-2xl mx-auto">
+        <span class="inline-block px-3 py-1 rounded-full bg-accent-primary/20 text-accent-primary text-xs font-bold uppercase tracking-widest">
+            SQL Database Knowledge Base ({{ total_faqs }} FAQs)
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black text-white leading-tight">
+            Frequently Asked Questions
+        </h1>
+        <p class="text-gray-300 text-sm">
+            Everything you need to know about Vibe Check, our music algorithms, AI assistant, and data privacy.
+        </p>
+
+        <!-- Search Bar -->
+        <form method="GET" action="{% url 'faqs' %}" class="pt-2 flex items-center max-w-lg mx-auto">
+            <div class="relative w-full">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-sm"></i>
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search FAQs by keywords..." 
+                    class="w-full pl-11 pr-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-accent-primary transition">
+            </div>
+            {% if search_query %}
+                <a href="{% url 'faqs' %}" class="ml-2 px-3 py-3 rounded-2xl bg-white/10 text-gray-300 hover:text-white text-xs font-bold transition">
+                    Clear
+                </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex items-center justify-center gap-2 overflow-x-auto pb-2 text-xs font-semibold">
+        <a href="{% url 'faqs' %}?category=all{% if search_query %}&q={{ search_query }}{% endif %}" 
+            class="px-4 py-2 rounded-xl transition whitespace-nowrap {% if selected_category == 'all' or not selected_category %}bg-accent-primary text-black font-bold shadow-lg{% else %}bg-white/5 text-gray-300 hover:bg-white/10{% endif %}">
+            All Categories
+        </a>
+        {% for cat_key, cat_label in categories %}
+            <a href="{% url 'faqs' %}?category={{ cat_key }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-2 rounded-xl transition whitespace-nowrap {% if selected_category == cat_key %}bg-accent-primary text-black font-bold shadow-lg{% else %}bg-white/5 text-gray-300 hover:bg-white/10{% endif %}">
+                {{ cat_label }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- FAQ Accordion List (Fetched from SQL) -->
+    <div class="space-y-4">
+        {% for faq in faqs %}
+            <div class="vibe-card rounded-2xl overflow-hidden border border-white/10">
+                <button onclick="toggleAccordion('faq-{{ faq.id }}')" 
+                    class="w-full p-5 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition">
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-white/10 text-accent-secondary flex items-center justify-center text-xs font-bold shrink-0">
+                            {{ forloop.counter }}
+                        </span>
+                        <span class="text-base font-bold text-white">{{ faq.question }}</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <span class="hidden sm:inline-block px-2.5 py-1 rounded-full bg-white/5 text-gray-400 text-[10px] font-semibold uppercase">
+                            {{ faq.get_category_display }}
+                        </span>
+                        <i id="icon-faq-{{ faq.id }}" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
+                    </div>
+                </button>
+                <div id="faq-{{ faq.id }}" class="hidden px-6 pb-6 pt-2 text-sm text-gray-300 leading-relaxed border-t border-white/5 bg-black/20 space-y-4">
+                    <p>{{ faq.answer }}</p>
+                    <div class="flex items-center justify-between pt-2 text-xs border-t border-white/5">
+                        <span class="text-[11px] text-gray-500">Stored in SQL Database • Updated {{ faq.updated_at|date:"M d, Y" }}</span>
+                        <!-- Quick Assistant Trigger Button -->
+                        <button onclick="openChatWithPrompt('{{ faq.question|escapejs }}')" 
+                            class="text-accent-secondary hover:underline flex items-center gap-1.5 font-semibold text-xs">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Ask Assistant this question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center py-12 vibe-card rounded-2xl p-8 space-y-3">
+                <i class="fa-solid fa-question-circle text-gray-500 text-4xl"></i>
+                <h3 class="text-lg font-bold text-white">No FAQs Matched Your Filter</h3>
+                <p class="text-xs text-gray-400 max-w-sm mx-auto">
+                    We couldn't find any FAQs matching your query. Ask our AI Assistant and it can generate an answer or open a support ticket!
+                </p>
+                <button onclick="openChatWithPrompt('{% if search_query %}{{ search_query|escapejs }}{% else %}Help me with Vibe Check{% endif %}')" 
+                    class="mt-2 px-5 py-2.5 rounded-xl btn-primary text-xs font-bold inline-flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Ask Assistant Directly
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Still Have Questions Banner -->
+    <div class="hero-banner p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+            <h3 class="text-xl font-extrabold text-white">Couldn't find the answer you were looking for?</h3>
+            <p class="text-xs text-gray-300 max-w-xl">
+                Our AI Assistant answers directly from this FAQ database, explains system error codes, and automatically logs a support ticket to our engineering queue if it cannot answer.
+            </p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+            <button onclick="openChatWithPrompt('I need help with something not listed in the FAQs')" 
+                class="px-5 py-3 rounded-xl btn-primary text-xs font-bold flex items-center gap-2 shadow-lg">
+                <i class="fa-solid fa-comment-dots"></i> Chat with AI Assistant
+            </button>
+            <a href="{% url 'tickets' %}" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition border border-white/10">
+                View Support Tickets
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function toggleAccordion(id) {
+        const el = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        if (el.classList.contains('hidden')) {
+            el.classList.remove('hidden');
+            icon.classList.add('rotate-180');
+        } else {
+            el.classList.add('hidden');
+            icon.classList.remove('rotate-180');
+        }
+    }
+</script>
+{% endblock %}

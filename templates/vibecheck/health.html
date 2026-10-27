@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}System Health & Diagnostic Telemetry — VIBE CHECK{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+    <!-- Header Banner -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> System Status: {{ health.status }}
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-white">
+                Health Check & Request Telemetry
+            </h1>
+            <p class="text-xs text-gray-400">
+                Live diagnostics verifying SQL, MongoDB, Request Logging Middleware, and Third-Party API status.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="{% url 'health' %}?format=json" target="_blank" 
+                class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-2 transition border border-white/10">
+                <i class="fa-solid fa-code text-accent-secondary"></i> Raw JSON Endpoint
+            </a>
+            <a href="{% url 'health' %}" 
+                class="px-3.5 py-2 rounded-xl btn-primary text-xs font-bold flex items-center gap-1.5 shadow-md">
+                <i class="fa-solid fa-rotate-right"></i> Refresh Probes
+            </a>
+        </div>
+    </div>
+
+    <!-- Telemetry Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- SQL Database Card -->
+        <div class="vibe-card p-5 rounded-3xl border border-white/10 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs uppercase font-bold text-gray-400">SQL Database</span>
+                <span class="w-2.5 h-2.5 rounded-full {% if health.database_sql.status == 'healthy' %}bg-emerald-400 animate-pulse{% else %}bg-red-400{% endif %}"></span>
+            </div>
+            <div class="text-xl font-black text-white uppercase">{{ health.database_sql.status }}</div>
+            <p class="text-[11px] text-gray-400 leading-tight">{{ health.database_sql.details }}</p>
+            <div class="text-[10px] text-gray-500 pt-1">Stores: FAQs, Error Codes, Tickets</div>
+        </div>
+
+        <!-- MongoDB Card -->
+        <div class="vibe-card p-5 rounded-3xl border border-white/10 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs uppercase font-bold text-gray-400">MongoDB Database</span>
+                <span class="w-2.5 h-2.5 rounded-full {% if health.database_mongodb.status == 'healthy' %}bg-emerald-400 animate-pulse{% else %}bg-amber-400{% endif %}"></span>
+            </div>
+            <div class="text-xl font-black text-white uppercase">{{ health.database_mongodb.status }}</div>
+            <p class="text-[11px] text-gray-400 leading-tight">{{ health.database_mongodb.details }}</p>
+            <div class="text-[10px] text-gray-500 pt-1">Stores: Chat Logs, User Feedback</div>
+        </div>
+
+        <!-- Third-Party API Card (With Timeout & Fallback Telemetry) -->
+        <div class="vibe-card p-5 rounded-3xl border border-white/10 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs uppercase font-bold text-gray-400">Third-Party API</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <div class="text-xl font-black text-white uppercase">
+                {% if health.third_party_api.source == 'live_api' %}LIVE ACTIVE{% else %}FALLBACK READY{% endif %}
+            </div>
+            <p class="text-[11px] text-gray-400 leading-tight">
+                Latency: <strong class="text-white">{{ health.third_party_api.latency_ms }}ms</strong> (Limit: {{ health.third_party_api.timeout_limit_s }}s)
+            </p>
+            <div class="text-[10px] text-gray-500 pt-1">Quote & Music Engine with fallback</div>
+        </div>
+
+        <!-- Server Uptime & Telemetry -->
+        <div class="vibe-card p-5 rounded-3xl border border-white/10 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs uppercase font-bold text-gray-400">Server Uptime</span>
+                <i class="fa-solid fa-clock text-accent-primary text-xs"></i>
+            </div>
+            <div class="text-xl font-black text-white">{{ health.uptime }}</div>
+            <p class="text-[11px] text-gray-400 leading-tight">
+                Total Requests: <strong class="text-white">{{ health.requests_telemetry.total_requests }}</strong>
+            </p>
+            <div class="text-[10px] text-gray-500 pt-1">Logged via RequestLoggingMiddleware</div>
+        </div>
+
+    </div>
+
+    <!-- Live Request Logs Stream Table -->
+    <div class="vibe-card p-6 rounded-3xl border border-white/10 space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-terminal text-accent-secondary"></i> Live HTTP Request Log (Middleware Captured)
+                </h3>
+                <p class="text-xs text-gray-400">Persisted to <code>logs/requests.log</code> with latency measurement.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-white/5 text-gray-300 text-[10px] font-mono">
+                Showing last {{ recent_logs|length }} requests
+            </span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono text-gray-300">
+                <thead class="text-[10px] text-gray-500 uppercase border-b border-white/10 pb-2">
+                    <tr>
+                        <th class="py-2.5 px-3">Timestamp (UTC)</th>
+                        <th class="py-2.5 px-3">Method</th>
+                        <th class="py-2.5 px-3">Path</th>
+                        <th class="py-2.5 px-3">Status</th>
+                        <th class="py-2.5 px-3">Latency</th>
+                        <th class="py-2.5 px-3">Client IP</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    {% for log in recent_logs %}
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-2.5 px-3 text-gray-400 whitespace-nowrap">{{ log.timestamp }}</td>
+                            <td class="py-2.5 px-3">
+                                <span class="px-2 py-0.5 rounded font-bold text-[10px] {% if log.method == 'GET' %}bg-blue-500/20 text-blue-300{% elif log.method == 'POST' %}bg-emerald-500/20 text-emerald-300{% else %}bg-purple-500/20 text-purple-300{% endif %}">
+                                    {{ log.method }}
+                                </span>
+                            </td>
+                            <td class="py-2.5 px-3 text-white font-sans text-xs">{{ log.path }}</td>
+                            <td class="py-2.5 px-3">
+                                {% if log.status < 400 %}
+                                    <span class="text-emerald-400 font-bold">{{ log.status }}</span>
+                                {% elif log.status == 404 %}
+                                    <span class="text-amber-400 font-bold">{{ log.status }}</span>
+                                {% else %}
+                                    <span class="text-red-400 font-bold">{{ log.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-2.5 px-3 text-gray-300">{{ log.duration_ms }}ms</td>
+                            <td class="py-2.5 px-3 text-gray-500">{{ log.ip }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-6 text-gray-500">
+                                No requests captured yet. Refresh the page to see middleware logs populate.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
