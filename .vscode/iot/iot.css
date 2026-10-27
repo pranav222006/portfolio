@@ -1,0 +1,635 @@
+/* =========================================================
+   IOT PORTFOLIO
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background: #0d1117;
+
+    color: #e6edf3;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.iot-container {
+    width: min(1180px, 90%);
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.iot-navbar {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background:
+        rgba(13, 17, 23, 0.92);
+
+    border-bottom:
+        1px solid #30363d;
+
+    backdrop-filter: blur(12px);
+}
+
+.iot-nav-container {
+    width: min(1180px, 90%);
+
+    margin: auto;
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.iot-brand {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid #3fb950;
+
+    border-radius: 10px;
+
+    color: #3fb950;
+
+    text-decoration: none;
+
+    font-weight: 700;
+}
+
+.iot-nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 28px;
+}
+
+.iot-nav-links a {
+    color: #8b949e;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.iot-nav-links a:hover {
+    color: #3fb950;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.iot-hero {
+    padding: 130px 0 110px;
+
+    border-bottom:
+        1px solid #21262d;
+}
+
+.iot-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    color: #3fb950;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.iot-hero h1 {
+    margin: 0 0 25px;
+
+    max-width: 850px;
+
+    font-size:
+        clamp(48px, 8vw, 86px);
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+}
+
+.iot-hero p {
+    max-width: 760px;
+
+    margin: 0;
+
+    color: #8b949e;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+   ========================================================= */
+
+.iot-hero-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-top: 35px;
+}
+
+.iot-primary-button,
+.iot-secondary-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 12px 20px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.25s;
+}
+
+.iot-primary-button {
+    background: #3fb950;
+
+    color: #0d1117;
+}
+
+.iot-primary-button:hover {
+    transform: translateY(-2px);
+}
+
+.iot-secondary-button {
+    border:
+        1px solid #30363d;
+
+    color: #e6edf3;
+}
+
+.iot-secondary-button:hover {
+    border-color: #3fb950;
+
+    color: #3fb950;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.iot-section {
+    padding: 110px 0;
+}
+
+.iot-project-section {
+    background:
+        rgba(22, 27, 34, 0.35);
+}
+
+.iot-section-heading {
+    max-width: 720px;
+
+    margin: 0 auto 60px;
+
+    text-align: center;
+}
+
+.iot-section-heading > span {
+    color: #3fb950;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.iot-section-heading h2 {
+    margin: 14px 0;
+
+    font-size:
+        clamp(34px, 5vw, 48px);
+
+    line-height: 1.1;
+}
+
+.iot-section-heading p {
+    margin: 0;
+
+    color: #8b949e;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   LEARNING CARDS
+   ========================================================= */
+
+.iot-learning-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.iot-learning-card {
+    padding: 28px;
+
+    background:
+        #161b22;
+
+    border:
+        1px solid #30363d;
+
+    border-radius: 10px;
+
+    transition: 0.25s;
+}
+
+.iot-learning-card:hover {
+    transform: translateY(-5px);
+
+    border-color:
+        #3fb950;
+}
+
+.learning-number {
+    margin-bottom: 25px;
+
+    color: #3fb950;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 13px;
+}
+
+.iot-learning-card h3 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+}
+
+.iot-learning-card p {
+    margin: 0;
+
+    color: #8b949e;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   PROJECT GRID
+   ========================================================= */
+
+.iot-project-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 28px;
+}
+
+
+/* =========================================================
+   PROJECT CARD
+   ========================================================= */
+
+.iot-project-card {
+    overflow: hidden;
+
+    background:
+        #161b22;
+
+    border:
+        1px solid #30363d;
+
+    border-radius: 12px;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.iot-project-card:hover {
+    transform: translateY(-7px);
+
+    border-color:
+        #3fb950;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================================================
+   PROJECT IMAGE
+   ========================================================= */
+
+.iot-project-image {
+    width: 100%;
+
+    height: 270px;
+
+    overflow: hidden;
+
+    background: #21262d;
+}
+
+.iot-project-image img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.5s ease;
+}
+
+.iot-project-card:hover
+.iot-project-image img {
+    transform:
+        scale(1.05);
+}
+
+
+/* =========================================================
+   PROJECT CONTENT
+   ========================================================= */
+
+.iot-project-content {
+    padding: 30px;
+}
+
+.iot-project-category {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #3fb950;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+}
+
+.iot-project-content h3 {
+    margin: 0 0 14px;
+
+    font-size: 25px;
+}
+
+.iot-project-content p {
+    margin: 0 0 22px;
+
+    color: #8b949e;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   TAGS
+   ========================================================= */
+
+.iot-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-bottom: 25px;
+}
+
+.iot-tags span {
+    padding: 5px 9px;
+
+    border:
+        1px solid #30363d;
+
+    border-radius: 20px;
+
+    color: #8b949e;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PROJECT BUTTON
+   ========================================================= */
+
+.iot-project-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 10px 17px;
+
+    border:
+        1px solid #3fb950;
+
+    border-radius: 6px;
+
+    color: #3fb950;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.25s;
+}
+
+.iot-project-button:hover {
+    background: #3fb950;
+
+    color: #0d1117;
+
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.iot-footer {
+    padding: 40px 0;
+
+    border-top:
+        1px solid #30363d;
+}
+
+.iot-footer .iot-container {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.iot-footer p {
+    margin: 0;
+
+    color: #8b949e;
+}
+
+.iot-footer a {
+    color: #3fb950;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .iot-learning-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .iot-project-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .iot-nav-links {
+        display: none;
+    }
+
+    .iot-hero {
+        padding: 90px 0;
+    }
+
+    .iot-hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .iot-hero p {
+        font-size: 16px;
+    }
+
+    .iot-section {
+        padding: 80px 0;
+    }
+
+    .iot-learning-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .iot-project-image {
+        height: 220px;
+    }
+
+    .iot-project-content {
+        padding: 24px;
+    }
+
+    .iot-footer .iot-container {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
